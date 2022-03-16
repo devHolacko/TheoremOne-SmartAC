@@ -6,10 +6,17 @@
 
   <ItemGroup>
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.16.0" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Controllers\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SmartAC.Common\SmartAC.Common.csproj" />
+    <ProjectReference Include="..\SmartAC.Models\SmartAC.Models.csproj" />
+    <ProjectReference Include="..\SmartAC.Services\SmartAC.Services.csproj" />
   </ItemGroup>
 
 </Project>

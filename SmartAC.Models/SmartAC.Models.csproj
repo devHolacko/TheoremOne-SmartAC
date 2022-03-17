@@ -6,7 +6,6 @@
 
   <ItemGroup>
     <Folder Include="Data\Alerts\" />
-    <Folder Include="Data\Sensors\" />
   </ItemGroup>
 
 </Project>

@@ -15,7 +15,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartAC.Services", "SmartAC
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartAC.Data", "SmartAC.Data\SmartAC.Data.csproj", "{50A4351D-0653-4DB3-BADE-D8106CDC6C22}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartAC.DbContext.Sql", "SmartAC.DbContext.Sql\SmartAC.DbContext.Sql.csproj", "{6D0E542E-C044-47CB-9250-592DA2A34CD3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartAC.Context.Sql", "SmartAC.Context.Sql\SmartAC.Context.Sql.csproj", "{6362A28E-6371-4F88-BE94-0DCC05E2ADF2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -47,10 +47,10 @@ Global
 		{50A4351D-0653-4DB3-BADE-D8106CDC6C22}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{50A4351D-0653-4DB3-BADE-D8106CDC6C22}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{50A4351D-0653-4DB3-BADE-D8106CDC6C22}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6D0E542E-C044-47CB-9250-592DA2A34CD3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6D0E542E-C044-47CB-9250-592DA2A34CD3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6D0E542E-C044-47CB-9250-592DA2A34CD3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6D0E542E-C044-47CB-9250-592DA2A34CD3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6362A28E-6371-4F88-BE94-0DCC05E2ADF2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6362A28E-6371-4F88-BE94-0DCC05E2ADF2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6362A28E-6371-4F88-BE94-0DCC05E2ADF2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6362A28E-6371-4F88-BE94-0DCC05E2ADF2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

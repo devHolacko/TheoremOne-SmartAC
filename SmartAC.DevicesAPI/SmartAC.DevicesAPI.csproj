@@ -12,4 +12,8 @@
     <Folder Include="Controllers\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\SmartAC.Services\SmartAC.Services.csproj" />
+  </ItemGroup>
+
 </Project>

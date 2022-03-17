@@ -8,6 +8,7 @@ namespace SmartAC.Models.Enums
 {
     public enum AlertViewStatus
     {
-
+        New,
+        Viewed
     }
 }

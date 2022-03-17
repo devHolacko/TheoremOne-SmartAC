@@ -8,6 +8,8 @@ namespace SmartAC.Models.Enums
 {
     public enum DeviceHealthStatus
     {
-
+        OK,
+        NeedsFilter,
+        NeedsService
     }
 }

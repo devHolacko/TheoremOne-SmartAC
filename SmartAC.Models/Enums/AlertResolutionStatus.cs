@@ -8,6 +8,8 @@ namespace SmartAC.Models.Enums
 {
     public enum AlertResolutionStatus
     {
-
+        New,
+        Resolved,
+        Ignored
     }
 }

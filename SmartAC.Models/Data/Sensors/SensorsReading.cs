@@ -9,6 +9,7 @@ namespace SmartAC.Models.Data.Sensors
 {
     public class SensorsReading : BaseAuditedEntity
     {
+        public Guid DeviceId { get; set; }
         public decimal Temperature { get; set; }
         public decimal Humidity { get; set; }
         public decimal CarbonMonoxide { get; set; }

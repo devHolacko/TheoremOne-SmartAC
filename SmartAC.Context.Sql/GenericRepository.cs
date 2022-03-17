@@ -21,7 +21,7 @@ namespace SmartAC.Context.Sql
         }
         public IEnumerable<T> GetAll()
         {
-            return _entities.AsEnumerable();
+            return _entities.AsQueryable();
         }
         public T Get(Guid id)
         {

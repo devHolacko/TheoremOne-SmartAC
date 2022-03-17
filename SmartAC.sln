@@ -3,17 +3,19 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.1.32228.430
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartAC.DevicesAPI", "SmartAC.DevicesAPI\SmartAC.DevicesAPI.csproj", "{18E551F8-A7AD-4064-BE67-156F913DD307}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartAC.DevicesAPI", "SmartAC.DevicesAPI\SmartAC.DevicesAPI.csproj", "{18E551F8-A7AD-4064-BE67-156F913DD307}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartAC.AdminAPI", "SmartAC.AdminAPI\SmartAC.AdminAPI.csproj", "{A888D7E5-147E-488F-B325-7A349597B53F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartAC.AdminAPI", "SmartAC.AdminAPI\SmartAC.AdminAPI.csproj", "{A888D7E5-147E-488F-B325-7A349597B53F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartAC.Models", "SmartAC.Models\SmartAC.Models.csproj", "{AE325DB7-2472-426B-BE9C-16E4E1448CC1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartAC.Models", "SmartAC.Models\SmartAC.Models.csproj", "{AE325DB7-2472-426B-BE9C-16E4E1448CC1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartAC.Common", "SmartAC.Common\SmartAC.Common.csproj", "{58D9D150-73A8-41B1-95A0-8245F50D4C92}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartAC.Common", "SmartAC.Common\SmartAC.Common.csproj", "{58D9D150-73A8-41B1-95A0-8245F50D4C92}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartAC.Services", "SmartAC.Services\SmartAC.Services.csproj", "{AFBC5DD2-7635-4CB1-804A-382DCFDFE4FA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartAC.Services", "SmartAC.Services\SmartAC.Services.csproj", "{AFBC5DD2-7635-4CB1-804A-382DCFDFE4FA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartAC.Data", "SmartAC.Data\SmartAC.Data.csproj", "{50A4351D-0653-4DB3-BADE-D8106CDC6C22}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartAC.Data", "SmartAC.Data\SmartAC.Data.csproj", "{50A4351D-0653-4DB3-BADE-D8106CDC6C22}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartAC.DbContext.Sql", "SmartAC.DbContext.Sql\SmartAC.DbContext.Sql.csproj", "{6D0E542E-C044-47CB-9250-592DA2A34CD3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{50A4351D-0653-4DB3-BADE-D8106CDC6C22}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{50A4351D-0653-4DB3-BADE-D8106CDC6C22}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{50A4351D-0653-4DB3-BADE-D8106CDC6C22}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6D0E542E-C044-47CB-9250-592DA2A34CD3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6D0E542E-C044-47CB-9250-592DA2A34CD3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6D0E542E-C044-47CB-9250-592DA2A34CD3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6D0E542E-C044-47CB-9250-592DA2A34CD3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

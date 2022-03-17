@@ -9,5 +9,6 @@ namespace SmartAC.Models.Data.Base
     public abstract class BaseEntity
     {
         public Guid Id { get; set; }
+        public bool Active { get; set; }
     }
 }

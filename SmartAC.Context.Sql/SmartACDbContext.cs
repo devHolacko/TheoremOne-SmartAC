@@ -1,5 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using SmartAC.Models.Data.Alerts;
+using SmartAC.Models.Data.Devices;
+using SmartAC.Models.Data.Sensors;
 using System;
 
 namespace SmartAC.Context.Sql
@@ -27,5 +30,11 @@ namespace SmartAC.Context.Sql
                 }
             }
         }
+
+        public DbSet<Device> Devices { get; set; }
+        public DbSet<DeviceRegisteration> DeviceRegisterations { get; set; }
+        public DbSet<Alert> Alerts { get; set; }
+        public DbSet<SensorsReading> SensorReadings { get; set; }
+        public DbSet<InvalidSensorReading> InvalidSensorReadings { get; set; }
     }
 }

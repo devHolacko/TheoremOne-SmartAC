@@ -1,4 +1,5 @@
 ﻿using SmartAC.Models.Data.Base;
+using SmartAC.Models.Data.Devices;
 using SmartAC.Models.Enums;
 using System;
 using System.Collections.Generic;
@@ -18,5 +19,7 @@ namespace SmartAC.Models.Data.Alerts
         public DateTime? ResolutionDate { get; set; }
         public AlertViewStatus ViewStatus { get; set; }
         public AlertResolutionStatus ResolutionStatus { get; set; }
+
+        public virtual Device Device { get; set; }
     }
 }

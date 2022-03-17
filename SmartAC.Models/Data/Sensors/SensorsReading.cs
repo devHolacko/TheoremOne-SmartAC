@@ -1,4 +1,5 @@
 ﻿using SmartAC.Models.Data.Base;
+using SmartAC.Models.Data.Devices;
 using SmartAC.Models.Enums;
 using System;
 using System.Collections.Generic;
@@ -15,5 +16,7 @@ namespace SmartAC.Models.Data.Sensors
         public decimal Humidity { get; set; }
         public decimal CarbonMonoxide { get; set; }
         public DeviceHealthStatus HealthStatus { get; set; }
+
+        public virtual Device Device { get; set; }
     }
 }

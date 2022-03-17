@@ -11,5 +11,7 @@ namespace SmartAC.Models.Data.Devices
     {
         public Guid DeviceId { get; set; }
         public string FirmwareVersion { get; set; }
+
+        public virtual Device Device { get; set; }
     }
 }

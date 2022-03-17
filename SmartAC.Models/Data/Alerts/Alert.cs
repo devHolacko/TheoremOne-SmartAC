@@ -1,4 +1,5 @@
 ﻿using SmartAC.Models.Data.Base;
+using SmartAC.Models.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,11 +12,11 @@ namespace SmartAC.Models.Data.Alerts
     {
         public Guid DeviceId { get; set; }
         public string Message { get; set; }
-        public string Type { get; set; }
+        public AlertType Type { get; set; }
         public string Code { get; set; }
         public DateTime AlertDate { get; set; }
         public DateTime? ResolutionDate { get; set; }
-        public string ViewStatus { get; set; }
-        public string ResolutionStatus { get; set; }
+        public AlertViewStatus ViewStatus { get; set; }
+        public AlertResolutionStatus ResolutionStatus { get; set; }
     }
 }

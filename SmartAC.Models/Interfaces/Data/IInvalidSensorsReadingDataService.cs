@@ -10,9 +10,9 @@ namespace SmartAC.Models.Interfaces.Data
 {
     public interface IInvalidSensorsReadingDataService
     {
-        public void CreateDevice(InvalidSensorReading device);
-        public void EditDevice(InvalidSensorReading device);
-        public InvalidSensorReading GetDeviceById(Guid id);
-        public IEnumerable<InvalidSensorReading> GetDevices(Expression<Func<InvalidSensorReading, bool>> expression);
+        public void CreateInvalidReading(InvalidSensorReading reading);
+        public void EditInvalidReading(InvalidSensorReading reading);
+        public InvalidSensorReading GetInvalidReadingById(Guid id);
+        public IEnumerable<InvalidSensorReading> GetInvalidReadings(Func<InvalidSensorReading, bool> expression);
     }
 }

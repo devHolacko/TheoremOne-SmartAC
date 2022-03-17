@@ -10,9 +10,9 @@ namespace SmartAC.Models.Interfaces.Data
 {
     public interface ISensorsReadingDataService
     {
-        public void CreateDevice(SensorsReading device);
-        public void EditDevice(SensorsReading device);
-        public SensorsReading GetDeviceById(Guid id);
-        public IEnumerable<SensorsReading> GetDevices(Expression<Func<SensorsReading, bool>> expression);
+        public void CreateSensorReading(SensorsReading reading);
+        public void EditSensorReading(SensorsReading reading);
+        public SensorsReading GetSensorReadingById(Guid id);
+        public IEnumerable<SensorsReading> GetSensorReadings(Func<SensorsReading, bool> expression);
     }
 }

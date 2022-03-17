@@ -10,9 +10,9 @@ namespace SmartAC.Models.Interfaces.Data
 {
     public interface IDeviceRegisterationDataService
     {
-        public void CreateDevice(DeviceRegisteration device);
-        public void EditDevice(DeviceRegisteration device);
-        public DeviceRegisteration GetDeviceById(Guid id);
-        public IEnumerable<DeviceRegisteration> GetDevices(Expression<Func<DeviceRegisteration, bool>> expression);
+        public void CreateDeviceRegisteration(DeviceRegisteration deviceRegisteration);
+        public void EditDeviceRegisteration(DeviceRegisteration deviceRegisteration);
+        public DeviceRegisteration GetDeviceRegisterationById(Guid id);
+        public IEnumerable<DeviceRegisteration> GetDeviceRegisterations(Func<DeviceRegisteration, bool> expression);
     }
 }

@@ -10,9 +10,9 @@ namespace SmartAC.Models.Interfaces.Data
 {
     public interface IAlertDataService
     {
-        public void CreateDevice(Alert device);
-        public void EditDevice(Alert device);
-        public Alert GetDeviceById(Guid id);
-        public IEnumerable<Alert> GetDevices(Expression<Func<Alert, bool>> expression);
+        public void CreateAlert(Alert alert);
+        public void EditAlert(Alert alert);
+        public Alert GetAlertById(Guid id);
+        public IEnumerable<Alert> GetAlerts(Func<Alert, bool> expression);
     }
 }

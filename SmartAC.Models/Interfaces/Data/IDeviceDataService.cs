@@ -13,6 +13,6 @@ namespace SmartAC.Models.Interfaces.Data
         public void CreateDevice(Device device);
         public void EditDevice(Device device);
         public Device GetDeviceById(Guid id);
-        public IEnumerable<Device> GetDevices(Expression<Func<Device, bool>> expression);
+        public IEnumerable<Device> GetDevices(Func<Device, bool> expression);
     }
 }

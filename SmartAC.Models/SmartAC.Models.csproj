@@ -5,7 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Data\Devices\" />
     <Folder Include="Data\Alerts\" />
     <Folder Include="Data\Sensors\" />
   </ItemGroup>

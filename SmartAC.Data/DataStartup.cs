@@ -1,5 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using SmartAC.Context.Sql;
+using SmartAC.Models.Common;
+using SmartAC.Models.Interfaces.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,9 +12,11 @@ namespace SmartAC.Data
 {
     public static class DataStartup
     {
-        public static void Configure(IServiceCollection services)
+        public static void Configure(IServiceCollection services, string connectionString)
         {
-            ContextStartup.Configure(services);
+            ContextStartup.Configure(services, connectionString);
+
+            services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
         }
     }
 }

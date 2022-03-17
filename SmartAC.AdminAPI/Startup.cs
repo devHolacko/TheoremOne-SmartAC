@@ -34,7 +34,7 @@ namespace SmartAC.AdminAPI
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "SmartAC.AdminAPI", Version = "v1" });
             });
 
-            ServicesStartup.Configure(services);
+            ServicesStartup.Configure(services, Configuration["DbConnectionString"]);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

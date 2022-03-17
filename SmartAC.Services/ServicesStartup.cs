@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using SmartAC.Data;
+using SmartAC.Models.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,9 +11,9 @@ namespace SmartAC.Services
 {
     public class ServicesStartup
     {
-        public static void Configure(IServiceCollection services)
+        public static void Configure(IServiceCollection services, string connectionString)
         {
-            DataStartup.Configure(services);
+            DataStartup.Configure(services, connectionString);
         }
     }
 }

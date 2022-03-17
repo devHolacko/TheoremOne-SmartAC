@@ -11,7 +11,6 @@ namespace SmartAC.Context.Sql
     {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("ConnectionString");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

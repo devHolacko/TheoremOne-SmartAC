@@ -11,5 +11,6 @@ namespace SmartAC.Models.Interfaces.Services
     public interface IUserService
     {
         DataGenericResponse<string> Login(LoginRequest request);
+        GenericResponse Logout(string token);
     }
 }

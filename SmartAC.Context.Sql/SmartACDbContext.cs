@@ -37,7 +37,7 @@ namespace SmartAC.Context.Sql
                 entity.Property(e => e.CreatedOn).ValueGeneratedOnAdd().HasDefaultValueSql("GETUTCDATE()");
                 entity.Property(e => e.ModifiedOn).ValueGeneratedOnUpdate().HasDefaultValueSql("GETUTCDATE()");
 
-                entity.Property(e => e.Serial).IsRequired();
+                entity.Property(e => e.Serial).IsRequired().HasMaxLength(32);
                 entity.Property(e => e.Secret).IsRequired();
             });
 

@@ -10,6 +10,6 @@ namespace SmartAC.Models.Interfaces.Services
 {
     public interface IAlertService
     {
-        DataGenericResponse<object> Create(CreateAlertRequest request);
+        GenericResponse Create(CreateAlertRequest request);
     }
 }

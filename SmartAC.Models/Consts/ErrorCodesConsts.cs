@@ -24,5 +24,6 @@ namespace SmartAC.Models.Consts
         public const string INVALID_SENSOR_READING = "InvalidSensorReading";
         public const string INVALID_USERNAME = "InvalidUserName";
         public const string INVALID_PASSWORD = "InvalidPassword";
+        public const string INVALID_USERNAME_PASSWORD = "InvalidUserNameOrPassword";
     }
 }

@@ -18,5 +18,9 @@ namespace SmartAC.Models.Consts
         public const string INVALID_DEVICE_ID = "InvalidDeviceId";
         public const string READINGS_EMPTY= "ReadingsEmpty";
         public const string NOT_ALL_READINGS_SAVED = "NotAllReadingsSaved";
+        public const string INVALID_MESSAGE = "InvalidMessage";
+        public const string INVALID_CODE = "InvalidCode";
+        public const string INVALID_ALERT_DATE = "InvalidAlertDate";
+        public const string INVALID_SENSOR_READING = "InvalidSensorReading";
     }
 }

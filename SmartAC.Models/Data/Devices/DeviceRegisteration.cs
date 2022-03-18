@@ -13,5 +13,10 @@ namespace SmartAC.Models.Data.Devices
         public string FirmwareVersion { get; set; }
 
         public virtual Device Device { get; set; }
+
+        public DeviceRegisteration(Guid deviceId, string firmwareVersion)
+        {
+
+        }
     }
 }

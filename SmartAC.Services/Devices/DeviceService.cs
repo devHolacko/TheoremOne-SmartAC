@@ -1,4 +1,4 @@
-﻿using SmartAC.Common;
+﻿using SmartAC.Models.Consts;
 using SmartAC.Models.Data.Devices;
 using SmartAC.Models.Interfaces.Data;
 using SmartAC.Models.Interfaces.Services;

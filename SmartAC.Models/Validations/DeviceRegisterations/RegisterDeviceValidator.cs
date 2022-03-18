@@ -1,5 +1,4 @@
 ﻿using FluentValidation;
-using SmartAC.Common;
 using SmartAC.Models.Consts;
 using SmartAC.Models.Data.Devices;
 using SmartAC.Models.ViewModels.Requests.Devices;

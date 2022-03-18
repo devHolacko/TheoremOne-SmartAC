@@ -13,5 +13,6 @@ namespace SmartAC.Models.Interfaces.Services
     {
         GenericResponse Create(CreateAlertRequest request);
         DataGenericResponse<bool> ValidateSensorReading(decimal sensorReading, AlertType alertType);
+        DataGenericResponse<bool> ValidateSensorReading(string sensorReading, AlertType alertType);
     }
 }

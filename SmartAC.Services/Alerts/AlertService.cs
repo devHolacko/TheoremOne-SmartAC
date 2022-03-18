@@ -56,7 +56,7 @@ namespace SmartAC.Services.Alerts
             }
 
             SensorsReading reading = _sensorsReadingDataService.GetSensorReadingById(request.SensorReadingId);
-            if(reading == null)
+            if (reading == null)
             {
                 return response.CreateFailureResponse(ErrorCodesConsts.INVALID_SENSOR_READING);
             }
@@ -75,6 +75,25 @@ namespace SmartAC.Services.Alerts
             bool isValid = SensorsReadingValidator.Validate(sensorReading, alertType);
 
             return new DataGenericResponse<bool>().CreateSuccessResponse(ErrorCodesConsts.SUCCESS, isValid);
+        }
+
+        public DataGenericResponse<bool> ValidateSensorReading(string sensorReading, AlertType alertType)
+        {
+            DataGenericResponse<bool> response = new DataGenericResponse<bool>();
+
+            bool isParsed = Enum.TryParse(sensorReading, out DeviceHealthStatus healthStatus);
+            if (!isParsed)
+            {
+                return response.CreateFailureResponse(ErrorCodesConsts.INVALID_SENSOR_READING);
+            }
+
+            if (healthStatus != DeviceHealthStatus.OK)
+            {
+                string statusValue = Enum.GetName(typeof(DeviceHealthStatus), healthStatus);
+                return response.CreateSuccessResponse(statusValue, false);
+            }
+
+            return new DataGenericResponse<bool>().CreateSuccessResponse(ErrorCodesConsts.SUCCESS, true);
         }
     }
 }

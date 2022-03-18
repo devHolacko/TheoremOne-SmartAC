@@ -10,6 +10,7 @@ namespace SmartAC.Models.Enums
     {
         Temperature,
         CarbonMonoxide,
-        Humidity
+        Humidity,
+        HelathStatus
     }
 }

@@ -47,6 +47,8 @@ namespace SmartAC.DevicesAPI
             
             services.AddSingleton(mapper);
 
+            services.AddMemoryCache();
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "SmartAC.DevicesAPI", Version = "v1" });

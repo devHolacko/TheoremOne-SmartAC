@@ -48,6 +48,8 @@ namespace SmartAC.AdminAPI
 
             services.AddSingleton(mapper);
 
+            services.AddMemoryCache();
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "SmartAC.AdminAPI", Version = "v1" });

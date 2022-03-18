@@ -13,5 +13,6 @@ namespace SmartAC.Models.ViewModels.Requests.Devices.Sensors
         public decimal Humidity { get; set; }
         public decimal CarbonMonoxide { get; set; }
         public DeviceHealthStatus HealthStatus { get; set; }
+        public DateTime RecordedAt { get; set; }
     }
 }

@@ -58,6 +58,7 @@ namespace SmartAC.Context.Sql
                 entity.Property(e => e.ResolutionStatus).IsRequired();
 
                 entity.HasOne(c => c.Device).WithMany(c => c.Alerts).HasForeignKey(c => c.DeviceId);
+                entity.HasOne(c => c.SensorsReading).WithMany(c => c.Alerts).HasForeignKey(c => c.SensorReadingId);
             });
 
             modelBuilder.Entity<DeviceRegisteration>(entity =>

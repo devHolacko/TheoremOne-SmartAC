@@ -1,5 +1,6 @@
 ﻿using SmartAC.Models.Data.Base;
 using SmartAC.Models.Data.Devices;
+using SmartAC.Models.Data.Sensors;
 using SmartAC.Models.Enums;
 using System;
 using System.Collections.Generic;
@@ -12,6 +13,7 @@ namespace SmartAC.Models.Data.Alerts
     public class Alert : BaseAuditedEntity
     {
         public Guid DeviceId { get; set; }
+        public Guid SensorReadingId { get; set; }
         public string Message { get; set; }
         public AlertType Type { get; set; }
         public string Code { get; set; }
@@ -21,5 +23,6 @@ namespace SmartAC.Models.Data.Alerts
         public AlertResolutionStatus ResolutionStatus { get; set; }
 
         public virtual Device Device { get; set; }
+        public virtual SensorsReading SensorsReading { get; set; }
     }
 }

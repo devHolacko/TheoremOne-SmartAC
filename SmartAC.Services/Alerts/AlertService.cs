@@ -145,5 +145,24 @@ namespace SmartAC.Services.Alerts
 
             return response.CreateSuccessResponse(ErrorCodesConsts.SUCCESS, mappedAlerts);
         }
+
+        public GenericResponse ChangeAlertViewStatus(Guid alertId, AlertViewStatus viewStatus)
+        {
+            GenericResponse response = new GenericResponse();
+
+            Alert selectedAlert = _alertDataService.GetAlertById(alertId);
+            if(selectedAlert == null)
+            {
+                return response.CreateFailureResponse(ErrorCodesConsts.NOT_FOUND);
+            }
+
+            if(selectedAlert.ViewStatus != viewStatus)
+            {
+                selectedAlert.ViewStatus = viewStatus;
+                _alertDataService.EditAlert(selectedAlert);
+            }
+
+            return response.CreateSuccessResponse(ErrorCodesConsts.SUCCESS);
+        }
     }
 }

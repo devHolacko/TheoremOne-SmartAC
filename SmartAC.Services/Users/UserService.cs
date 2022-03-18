@@ -1,4 +1,7 @@
 ﻿using AutoMapper;
+using Microsoft.Extensions.Options;
+using SmartAC.Common.Token;
+using SmartAC.Models.Common;
 using SmartAC.Models.Consts;
 using SmartAC.Models.Data.Users;
 using SmartAC.Models.Interfaces.Services;
@@ -18,12 +21,13 @@ namespace SmartAC.Services.Users
     {
         private readonly IMapper _mapper;
         private readonly User dummyUser;
-        public UserService(IMapper mapper)
+        private readonly AppSettings appSettings;
+        public UserService(IMapper mapper, IOptions<AppSettings> appSettings)
         {
             _mapper = mapper;
             dummyUser = new User
             {
-                Id = Guid.NewGuid(),
+                Id = Guid.Parse("47690c0e-7703-4230-8262-c143fc85f3eb"),
                 Active = true,
                 Email = "test@gmail.com",
                 FirstName = "Michael",
@@ -31,6 +35,7 @@ namespace SmartAC.Services.Users
                 UserName = "mjordan",
                 Password = "123456"
             };
+            this.appSettings = appSettings.Value;
         }
 
         public DataGenericResponse<string> Login(LoginRequest request)
@@ -48,12 +53,12 @@ namespace SmartAC.Services.Users
                 return response.CreateFailureResponse(validationResult.Errors.Select(c => c.ErrorMessage).ToArray());
             }
 
-            if(request.UserName != dummyUser.UserName || request.Password != dummyUser.Password)
+            if (request.UserName != dummyUser.UserName || request.Password != dummyUser.Password)
             {
                 return response.CreateFailureResponse(ErrorCodesConsts.INVALID_USERNAME_PASSWORD);
             }
-
-            return null;
+            string jwtToken = TokenHelper.GenerateJwtToken(appSettings.Secret, dummyUser.Id);
+            return response.CreateSuccessResponse(ErrorCodesConsts.SUCCESS, jwtToken);
         }
 
         public GenericResponse Logout(string token)

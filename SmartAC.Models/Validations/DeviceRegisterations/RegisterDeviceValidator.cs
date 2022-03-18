@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using SmartAC.Common;
+using SmartAC.Models.Consts;
 using SmartAC.Models.Data.Devices;
 using SmartAC.Models.ViewModels.Requests.Devices;
 using System;
@@ -14,8 +15,8 @@ namespace SmartAC.Models.Validations.DeviceRegisterations
     {
         public RegisterDeviceValidator()
         {
-            RuleFor(x => x.Serial).NotNull().NotEmpty().MaximumLength(32);
-            RuleFor(x => x.Secret).NotNull().NotEmpty();
+            RuleFor(x => x.Serial).NotNull().NotEmpty().MaximumLength(32).WithMessage(ErrorCodesConsts.INVALID_SERIAL);
+            RuleFor(x => x.Secret).NotNull().NotEmpty().WithMessage(ErrorCodesConsts.INVALID_SECRET);
             RuleFor(x => x.FirmwareVersion).NotNull().NotEmpty().Matches(RegexConsts.SEMANTIC_VERSIONING_REGEX);
         }
     }

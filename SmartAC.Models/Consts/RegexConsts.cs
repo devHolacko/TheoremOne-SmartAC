@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SmartAC.Common
+namespace SmartAC.Models.Consts
 {
     public class RegexConsts
     {

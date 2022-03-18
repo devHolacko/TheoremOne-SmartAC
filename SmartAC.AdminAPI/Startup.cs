@@ -1,3 +1,4 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -7,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using SmartAC.Models.Mappings;
 using SmartAC.Services;
 using System;
 using System.Collections.Generic;
@@ -27,8 +29,24 @@ namespace SmartAC.AdminAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            var mappingConfig = new MapperConfiguration(mc =>
+            {
+                mc.AllowNullCollections = true;
+                mc.AllowNullDestinationValues = true;
+                var profiles = MappingsConfig.GetMappingsProfiles();
+                foreach (var profile in profiles)
+                {
+                    mc.AddProfile(profile);
+                }
+            });
+
+            IMapper mapper = mappingConfig.CreateMapper();
+
 
             services.AddControllers();
+
+            services.AddSingleton(mapper);
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "SmartAC.AdminAPI", Version = "v1" });

@@ -68,5 +68,10 @@ namespace SmartAC.Services.Alerts
 
             return response.CreateSuccessResponse(ErrorCodesConsts.SUCCESS);
         }
+
+        public DataGenericResponse<bool> ValidateSensorReading(decimal sensorReading, AlertType alertType)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

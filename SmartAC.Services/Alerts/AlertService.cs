@@ -7,6 +7,7 @@ using SmartAC.Models.Enums;
 using SmartAC.Models.Interfaces.Data;
 using SmartAC.Models.Interfaces.Services;
 using SmartAC.Models.Validations.Alerts;
+using SmartAC.Models.Validations.SensorsReading;
 using SmartAC.Models.ViewModels;
 using SmartAC.Models.ViewModels.Requests.Alerts;
 using SmartAC.Models.ViewModels.Responses.Base;
@@ -71,7 +72,9 @@ namespace SmartAC.Services.Alerts
 
         public DataGenericResponse<bool> ValidateSensorReading(decimal sensorReading, AlertType alertType)
         {
-            throw new NotImplementedException();
+            bool isValid = SensorsReadingValidator.Validate(sensorReading, alertType);
+
+            return new DataGenericResponse<bool>().CreateSuccessResponse(ErrorCodesConsts.SUCCESS, isValid);
         }
     }
 }

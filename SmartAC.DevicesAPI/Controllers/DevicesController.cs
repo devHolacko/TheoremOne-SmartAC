@@ -3,8 +3,10 @@ using Microsoft.AspNetCore.Mvc;
 using SmartAC.DevicesAPI.Controllers.Base;
 using SmartAC.Models.Interfaces.Services;
 using SmartAC.Models.ViewModels.Requests.Devices;
+using SmartAC.Models.ViewModels.Responses;
 using SmartAC.Models.ViewModels.Responses.Base;
 using System;
+using System.Collections.Generic;
 
 namespace SmartAC.DevicesAPI.Controllers
 {
@@ -26,12 +28,19 @@ namespace SmartAC.DevicesAPI.Controllers
             return new OkObjectResult(response);
         }
 
-        [Route("{device-id}/sensors/reporting")]
+        [Route("sensors/reporting")]
         [HttpPost]
-        public IActionResult ReportSensorsReadings([FromRoute(Name = "device-id")] Guid deviceId, [FromBody] ReportDeviceReadingsRequest request)
+        public IActionResult ReportSensorsReadings([FromBody] ReportDeviceReadingsRequest request)
         {
-            request.DeviceId = deviceId;
             GenericResponse response = _deviceService.ReportDeviceReadings(request);
+            return new OkObjectResult(response);
+        }
+
+        [Route("recently-registered/size/{page-size}/number/{page-number}")]
+        [HttpGet]
+        public IActionResult GetRecentlyRegisteredDevices([FromRoute(Name = "page-size")] int pageSize, [FromRoute(Name = "page-number")] int pageNumber)
+        {
+            DataGenericResponse<List<DeviceRegisterationViewModel>> response = _deviceService.GetRecentlyRegisteredDevices(pageSize, pageNumber);
             return new OkObjectResult(response);
         }
     }

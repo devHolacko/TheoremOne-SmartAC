@@ -1,4 +1,6 @@
-﻿using System;
+﻿using SmartAC.Models.ViewModels.Responses.Base;
+using SmartAC.Models.ViewModels.Responses.Sesnors;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,5 +10,6 @@ namespace SmartAC.Models.Interfaces.Services
 {
     public interface ISensorsReadingService
     {
+        DataGenericResponse<List<SensorReadingsResponseViewModel>> GetSensorReadings(Guid deviceId, DateTime? from, DateTime? to, int pageNumber = 1, int pageSize = 10);
     }
 }

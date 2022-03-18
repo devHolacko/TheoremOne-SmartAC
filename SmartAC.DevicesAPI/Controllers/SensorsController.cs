@@ -8,7 +8,7 @@ namespace SmartAC.DevicesAPI.Controllers
     [ApiController]
     public class SensorsController : BaseAuthController
     {
-        private readonly ISensorService
+        
         public SensorsController()
         {
 

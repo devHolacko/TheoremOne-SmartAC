@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using SmartAC.Models.Data.Sensors;
 using SmartAC.Models.ViewModels.Requests.Devices.Sensors;
+using SmartAC.Models.ViewModels.Responses.Sesnors;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +15,7 @@ namespace SmartAC.Models.Mappings
         public SensorReadingMapping()
         {
             CreateMap(typeof(SensorsReading), typeof(SensorReadingViewModel)).ReverseMap();
+            CreateMap<SensorsReading, SensorReadingsResponseViewModel>().ForMember(c => c.HealthStatus, d => d.MapFrom(x => x.HealthStatus.ToString())).ReverseMap();
         }
     }
 }

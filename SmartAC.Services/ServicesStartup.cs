@@ -1,6 +1,7 @@
 ﻿using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 using SmartAC.Data;
+using SmartAC.Models.Interfaces.Common;
 using SmartAC.Models.Interfaces.Services;
 using SmartAC.Models.Validations.Alerts;
 using SmartAC.Models.Validations.DeviceRegisterations;
@@ -11,6 +12,7 @@ using SmartAC.Models.ViewModels.Requests.Devices;
 using SmartAC.Models.ViewModels.Requests.Users;
 using SmartAC.Services.Alerts;
 using SmartAC.Services.Devices;
+using SmartAC.Services.Others;
 
 namespace SmartAC.Services
 {
@@ -22,6 +24,7 @@ namespace SmartAC.Services
 
             services.AddTransient<IDeviceService, DeviceService>();
             services.AddTransient<IAlertService, AlertService>();
+            services.AddTransient<ICacheManager, CacheManager>();
 
             services.AddTransient<IValidator<RegisterDeviceRequest>, RegisterDeviceValidator>();
             services.AddTransient<IValidator<ReportDeviceReadingsRequest>, ReportDeviceReadingsValidator>();

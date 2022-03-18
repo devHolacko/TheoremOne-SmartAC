@@ -9,4 +9,12 @@
     <PackageReference Include="FluentValidation.AspNetCore" Version="10.4.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Validations\Devices\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SmartAC.Common\SmartAC.Common.csproj" />
+  </ItemGroup>
+
 </Project>

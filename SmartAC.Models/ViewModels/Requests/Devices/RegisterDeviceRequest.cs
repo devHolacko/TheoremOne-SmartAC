@@ -10,5 +10,6 @@ namespace SmartAC.Models.ViewModels.Requests.Devices
     {
         public string Serial { get; set; }
         public string Secret { get; set; }
+        public string FirmwareVersion { get; set; }
     }
 }

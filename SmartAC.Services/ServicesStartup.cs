@@ -5,6 +5,7 @@ using SmartAC.Models.Interfaces.Services;
 using SmartAC.Models.Validations.DeviceRegisterations;
 using SmartAC.Models.Validations.Devices;
 using SmartAC.Models.ViewModels.Requests.Devices;
+using SmartAC.Services.Alerts;
 using SmartAC.Services.Devices;
 
 namespace SmartAC.Services
@@ -16,6 +17,8 @@ namespace SmartAC.Services
             DataStartup.Configure(services, connectionString);
 
             services.AddTransient<IDeviceService, DeviceService>();
+            services.AddTransient<IAlertService, AlertService>();
+
             services.AddTransient<IValidator<RegisterDeviceRequest>, RegisterDeviceValidator>();
             services.AddTransient<IValidator<ReportDeviceReadingsRequest>, ReportDeviceReadingsValidator>();
         }

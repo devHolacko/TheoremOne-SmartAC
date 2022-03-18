@@ -52,5 +52,10 @@ namespace SmartAC.Services.Devices
 
             return response.CreateSuccessResponse(ErrorCodesConsts.SUCCESS);
         }
+
+        public GenericResponse ReportDeviceReadings(ReportDeviceReadingsRequest request)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

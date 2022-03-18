@@ -11,5 +11,6 @@ namespace SmartAC.Models.Interfaces.Services
     public interface IDeviceService
     {
         GenericResponse Register(RegisterDeviceRequest request);
+        GenericResponse ReportDeviceReadings(ReportDeviceReadingsRequest request);
     }
 }

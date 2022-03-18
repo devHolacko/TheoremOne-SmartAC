@@ -10,6 +10,7 @@ using SmartAC.Models.Validations.Alerts;
 using SmartAC.Models.Validations.SensorsReading;
 using SmartAC.Models.ViewModels;
 using SmartAC.Models.ViewModels.Requests.Alerts;
+using SmartAC.Models.ViewModels.Responses.Alerts;
 using SmartAC.Models.ViewModels.Responses.Base;
 using System;
 using System.Collections.Generic;
@@ -94,6 +95,55 @@ namespace SmartAC.Services.Alerts
             }
 
             return new DataGenericResponse<bool>().CreateSuccessResponse(ErrorCodesConsts.SUCCESS, true);
+        }
+
+        public DataGenericResponse<List<AlertViewModel>> GetActiveAlerts(ActiveAlertsViewStatusFilter viewStatus, ActiveAlertsResolutionStatusFilter resolutionStatus, SortingType sortingType, int pageNumber = 10, int pageSize = 10)
+        {
+            DataGenericResponse<List<AlertViewModel>> response = new DataGenericResponse<List<AlertViewModel>>();
+            IEnumerable<Alert> query = _alertDataService.GetAlerts(c => c.Active);
+            switch (viewStatus)
+            {
+                case ActiveAlertsViewStatusFilter.Unviewed:
+                    query = query.Where(c => c.ViewStatus == AlertViewStatus.New);
+                    break;
+                default:
+                    break;
+            }
+
+            switch (resolutionStatus)
+            {
+                case ActiveAlertsResolutionStatusFilter.Unresolved:
+                    query = query.Where(c => c.ResolutionStatus == AlertResolutionStatus.New);
+                    break;
+                default:
+                    break;
+            }
+
+            switch (sortingType)
+            {
+                case SortingType.Ascending:
+                    query = query.OrderBy(c => c.AlertDate);
+                    break;
+                case SortingType.Descending:
+                    query = query.OrderByDescending(c => c.AlertDate);
+                    break;
+                default:
+                    query = query.OrderBy(c => c.AlertDate);
+                    break;
+            }
+
+            query = query.Skip((pageNumber - 1) * pageSize).Take(pageSize);
+
+            if (!query.Any())
+            {
+                return response.CreateSuccessResponse(ErrorCodesConsts.SUCCESS, new List<AlertViewModel>());
+            }
+
+            List<Alert> alertsList = query.ToList();
+
+            List<AlertViewModel> mappedAlerts = _mapper.Map<List<AlertViewModel>>(alertsList);
+
+            return response.CreateSuccessResponse(ErrorCodesConsts.SUCCESS, mappedAlerts);
         }
     }
 }

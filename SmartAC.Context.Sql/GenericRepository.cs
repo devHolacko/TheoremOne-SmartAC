@@ -36,6 +36,14 @@ namespace SmartAC.Context.Sql
             _entities.Add(entity);
             _context.SaveChanges();
         }
+        public int Insert(List<T> entities)
+        {
+            Parallel.ForEach(entities, entity =>
+            {
+                _entities.Add(entity);
+            });
+            return _context.SaveChanges();
+        }
         public void Update(T entity)
         {
             if (entity == null)

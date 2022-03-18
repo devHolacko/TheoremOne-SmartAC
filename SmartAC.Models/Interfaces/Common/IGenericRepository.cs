@@ -12,6 +12,7 @@ namespace SmartAC.Models.Interfaces.Common
         IEnumerable<T> GetAll();
         T Get(Guid id);
         void Insert(T entity);
+        int Insert(List<T> entities);
         void Update(T entity);
         void Delete(T entity);
     }

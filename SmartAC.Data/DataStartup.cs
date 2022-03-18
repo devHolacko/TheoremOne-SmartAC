@@ -2,6 +2,7 @@
 using SmartAC.Context.Sql;
 using SmartAC.Models.Common;
 using SmartAC.Models.Interfaces.Common;
+using SmartAC.Models.Interfaces.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,7 +17,12 @@ namespace SmartAC.Data
         {
             ContextStartup.Configure(services, connectionString);
 
-            services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+            services.AddTransient<IAlertDataService, AlertDataService>();
+            services.AddTransient<IDeviceDataService, DeviceDataService>();
+            services.AddTransient<IDeviceRegisterationDataService, DeviceRegisterationDataService>();
+            services.AddTransient<ISensorsReadingDataService, SensorsReadingDataService>();
+            services.AddTransient<IInvalidSensorsReadingDataService, InvalidSensorsReadingDataService>();
+
         }
     }
 }

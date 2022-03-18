@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using SmartAC.Models.Common;
+using SmartAC.Models.Interfaces.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +15,8 @@ namespace SmartAC.Context.Sql
         public static void Configure(IServiceCollection services, string connectionString)
         {
             services.AddDbContext<SmartACDbContext>(options => options.UseSqlServer(connectionString));
+
+            services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
         }
     }
 }

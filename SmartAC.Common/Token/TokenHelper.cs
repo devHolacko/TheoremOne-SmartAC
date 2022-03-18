@@ -11,20 +11,29 @@ namespace SmartAC.Common.Token
 {
     public class TokenHelper
     {
-        public static string GenerateJwtToken(string secret, Guid userId)
+        public static string GenerateJwtToken(string secret, Guid id, string issuer)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(secret);
+            DateTime currentDateTime = DateTime.UtcNow;
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(new[] {
-                    new Claim("id", userId.ToString())
+                    new Claim("id", id.ToString())
                 }),
-                Expires = DateTime.UtcNow.AddDays(7),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+                Expires = currentDateTime.AddDays(7),
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature),
+                IssuedAt = currentDateTime,
+                Issuer = issuer
+
             };
             var token = tokenHandler.CreateToken(tokenDescriptor);
             return tokenHandler.WriteToken(token);
+        }
+
+        public static DateTime GetTokenIssuedAt(string token)
+        {
+            return new JwtSecurityTokenHandler().ReadJwtToken(token).IssuedAt;
         }
     }
 }

@@ -59,7 +59,7 @@ namespace SmartAC.Services.Users
             {
                 return response.CreateFailureResponse(ErrorCodesConsts.INVALID_USERNAME_PASSWORD);
             }
-            string jwtToken = TokenHelper.GenerateJwtToken(appSettings.Secret, dummyUser.Id);
+            string jwtToken = TokenHelper.GenerateJwtToken(appSettings.Secret, dummyUser.Id,CommonConsts.ISSUER_ADMIN_API);
 
             _cacheManager.Add(CommonConsts.TOKEN, jwtToken);
 

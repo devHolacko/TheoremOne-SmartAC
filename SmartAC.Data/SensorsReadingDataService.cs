@@ -22,6 +22,11 @@ namespace SmartAC.Data
             _sensorReadingRepository.Insert(reading);
         }
 
+        public int CreateBulkSensorReadings(List<SensorsReading> readings)
+        {
+            return _sensorReadingRepository.Insert(readings);
+        }
+
         public void EditSensorReading(SensorsReading reading)
         {
             _sensorReadingRepository.Update(reading);

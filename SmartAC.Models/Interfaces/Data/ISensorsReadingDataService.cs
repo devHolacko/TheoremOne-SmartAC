@@ -11,6 +11,7 @@ namespace SmartAC.Models.Interfaces.Data
     public interface ISensorsReadingDataService
     {
         public void CreateSensorReading(SensorsReading reading);
+        public int CreateBulkSensorReadings(List<SensorsReading> readings);
         public void EditSensorReading(SensorsReading reading);
         public SensorsReading GetSensorReadingById(Guid id);
         public IEnumerable<SensorsReading> GetSensorReadings(Func<SensorsReading, bool> expression);

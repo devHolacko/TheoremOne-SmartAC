@@ -10,10 +10,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Validations\Devices\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\SmartAC.Common\SmartAC.Common.csproj" />
   </ItemGroup>
 

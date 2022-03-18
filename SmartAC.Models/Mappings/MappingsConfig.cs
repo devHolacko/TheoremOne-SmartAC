@@ -13,7 +13,8 @@ namespace SmartAC.Models.Mappings
         {
             return new List<Profile>
             {
-                new SensorReadingMapping()
+                new SensorReadingMapping(),
+                new AlertsMapping()
             };
         }
     }

@@ -36,5 +36,12 @@ namespace SmartAC.Services.Others
             _memoryCache.TryGetValue(key, out string value);
             return value;
         }
+
+        public void Remove(string key)
+        {
+            string value = Get(key);
+            if (!string.IsNullOrEmpty(value))
+                _memoryCache.Remove(key);
+        }
     }
 }

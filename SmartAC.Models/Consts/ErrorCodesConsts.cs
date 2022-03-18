@@ -25,5 +25,6 @@ namespace SmartAC.Models.Consts
         public const string INVALID_USERNAME = "InvalidUserName";
         public const string INVALID_PASSWORD = "InvalidPassword";
         public const string INVALID_USERNAME_PASSWORD = "InvalidUserNameOrPassword";
+        public const string ALREADY_LOGGED_OUT = "AlreadyLoggedOut";
     }
 }

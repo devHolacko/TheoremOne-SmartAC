@@ -10,5 +10,6 @@ namespace SmartAC.Models.Interfaces.Common
     {
         void Add(string key, string value);
         string Get(string key);
+        void Remove(string key);
     }
 }

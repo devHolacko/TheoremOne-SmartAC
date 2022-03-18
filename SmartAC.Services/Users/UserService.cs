@@ -20,13 +20,11 @@ namespace SmartAC.Services.Users
 {
     public class UserService : IUserService
     {
-        private readonly IMapper _mapper;
         private readonly ICacheManager _cacheManager;
         private readonly User dummyUser;
         private readonly AppSettings appSettings;
-        public UserService(IMapper mapper, IOptions<AppSettings> appSettings, ICacheManager cacheManager)
+        public UserService(IOptions<AppSettings> appSettings, ICacheManager cacheManager)
         {
-            _mapper = mapper;
             _cacheManager = cacheManager;
             this.appSettings = appSettings.Value;
 
@@ -68,9 +66,18 @@ namespace SmartAC.Services.Users
             return response.CreateSuccessResponse(ErrorCodesConsts.SUCCESS, jwtToken);
         }
 
-        public GenericResponse Logout(string token)
+        public GenericResponse Logout()
         {
-            throw new NotImplementedException();
+            GenericResponse response = new GenericResponse();
+            string token = _cacheManager.Get(CommonConsts.TOKEN);
+            if (string.IsNullOrWhiteSpace(token))
+            {
+                return response.CreateFailureResponse(ErrorCodesConsts.ALREADY_LOGGED_OUT);
+            }
+
+            _cacheManager.Remove(CommonConsts.TOKEN);
+
+            return response.CreateSuccessResponse(ErrorCodesConsts.SUCCESS);
         }
     }
 }

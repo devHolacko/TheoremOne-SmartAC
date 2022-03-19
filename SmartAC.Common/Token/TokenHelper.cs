@@ -35,5 +35,31 @@ namespace SmartAC.Common.Token
         {
             return new JwtSecurityTokenHandler().ReadJwtToken(token).IssuedAt;
         }
+
+        public static bool ValidateToken(string stringToken, string issuer, string secret)
+        {
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secret));
+            var tokenValidations = new TokenValidationParameters
+            {
+                IssuerSigningKey = key,
+                ValidIssuer = issuer
+            };
+            try
+            {
+                new JwtSecurityTokenHandler().ValidateToken(stringToken, tokenValidations, out SecurityToken securityToken);
+                if (securityToken.ValidTo < DateTime.UtcNow)
+                {
+                    return false;
+                }
+                else
+                {
+                    return true;
+                }
+            }
+            catch
+            {
+                return false;
+            }
+        }
     }
 }

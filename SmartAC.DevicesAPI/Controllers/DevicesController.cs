@@ -47,9 +47,17 @@ namespace SmartAC.DevicesAPI.Controllers
 
         [Route("serial/{serial-number}")]
         [HttpGet]
-        public IActionResult GetDevicesBySerialNumber([FromRoute(Name ="serial-number")]string serialNumber)
+        public IActionResult GetDevicesBySerialNumber([FromRoute(Name = "serial-number")] string serialNumber)
         {
             DataGenericResponse<List<DeviceViewModel>> response = _deviceService.FilterDevicesBySerial(serialNumber);
+            return new OkObjectResult(response);
+        }
+
+        [Route("from/{from-date}/to/{to-date}")]
+        [HttpGet]
+        public IActionResult GetDevicesByRegisterationDate([FromRoute(Name = "from-date")] DateTime fromDate, [FromRoute(Name = "to-date")] DateTime toDate)
+        {
+            DataGenericResponse<List<DeviceViewModel>> response = _deviceService.GetDevicesByRegisterationDate(fromDate, toDate);
             return new OkObjectResult(response);
         }
     }

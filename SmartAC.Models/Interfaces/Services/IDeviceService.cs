@@ -16,5 +16,6 @@ namespace SmartAC.Models.Interfaces.Services
         GenericResponse ReportDeviceReadings(ReportDeviceReadingsRequest request);
         DataGenericResponse<List<DeviceRegisterationViewModel>> GetRecentlyRegisteredDevices(int pageNumber = 1, int pageSize = 10);
         DataGenericResponse<DeviceViewModel> GetDeviceBySerial(string serialNumber);
+        DataGenericResponse<DeviceViewModel> GetDevicesByRegisterationDate(DateTime from, DateTime to);
     }
 }

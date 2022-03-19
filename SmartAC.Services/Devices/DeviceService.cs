@@ -141,5 +141,26 @@ namespace SmartAC.Services.Devices
 
             return response.CreateSuccessResponse(ErrorCodesConsts.SUCCESS, mappedDevice);
         }
+
+        public DataGenericResponse<List<DeviceViewModel>> GetDevicesByRegisterationDate(DateTime from, DateTime to)
+        {
+            DataGenericResponse<List<DeviceViewModel>> response = new DataGenericResponse<List<DeviceViewModel>>();
+
+            var devices = new List<(Device Device, DateTime RegisteredOn)>();
+
+            var query = _deviceRegisterationDataService.GetDeviceRegisterations(c => c.CreatedOn >= from && c.CreatedOn <= to).OrderByDescending(c => c.CreatedOn);
+            var queryResult = query.ToList();
+            foreach (var item in queryResult)
+            {
+                if (!devices.Any(c => c.Device.Id == item.DeviceId))
+                {
+                    devices.Add((item.Device, item.CreatedOn));
+                }
+            }
+
+            List<DeviceViewModel> mappedDevices = _mapper.Map<List<DeviceViewModel>>(devices.Select(c => c.Device));
+
+            return response.CreateSuccessResponse(ErrorCodesConsts.SUCCESS, mappedDevices);
+        }
     }
 }

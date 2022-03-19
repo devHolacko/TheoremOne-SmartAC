@@ -8,7 +8,7 @@ namespace SmartAC.Models.Data.Base
 {
     public abstract class BaseAuditedEntity : BaseEntity
     {
-        public DateTime? CreatedOn { get; set; }
-        public DateTime? ModifiedOn { get; set; }
+        public DateTime CreatedOn { get; set; }
+        public DateTime ModifiedOn { get; set; }
     }
 }

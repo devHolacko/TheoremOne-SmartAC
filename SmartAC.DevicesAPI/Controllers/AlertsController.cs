@@ -37,5 +37,13 @@ namespace SmartAC.DevicesAPI.Controllers
             GenericResponse response = _alertService.ChangeAlertViewStatus(alertId, AlertViewStatus.Viewed);
             return new OkObjectResult(response);
         }
+
+        [Route("{alert-id}/ignore")]
+        [HttpPatch]
+        public IActionResult MarkAlertIgnored([FromRoute(Name = "alert-id")] Guid alertId)
+        {
+            GenericResponse response = _alertService.ChangeAlertResolutionStatus(alertId, AlertResolutionStatus.Ignored);
+            return new OkObjectResult(response);
+        }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using SmartAC.Common.Token;
 using SmartAC.Models.Common;
@@ -22,11 +23,11 @@ namespace SmartAC.Services.Users
     {
         private readonly ICacheManager _cacheManager;
         private readonly User dummyUser;
-        private readonly AppSettings appSettings;
-        public UserService(IOptions<AppSettings> appSettings, ICacheManager cacheManager)
+        private readonly IConfiguration configuration;
+        public UserService(IConfiguration configuration, ICacheManager cacheManager)
         {
             _cacheManager = cacheManager;
-            this.appSettings = appSettings.Value;
+            this.configuration = configuration;
 
             dummyUser = new User
             {
@@ -59,7 +60,7 @@ namespace SmartAC.Services.Users
             {
                 return response.CreateFailureResponse(ErrorCodesConsts.INVALID_USERNAME_PASSWORD);
             }
-            string jwtToken = TokenHelper.GenerateJwtToken(appSettings.Secret, dummyUser.Id,CommonConsts.ISSUER_ADMIN_API);
+            string jwtToken = TokenHelper.GenerateJwtToken(configuration.GetSection("AppSettings")["Secret"], dummyUser.Id, CommonConsts.ISSUER_ADMIN_API);
 
             _cacheManager.Add(CommonConsts.TOKEN, jwtToken);
 

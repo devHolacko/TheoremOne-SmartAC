@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using SmartAC.Common.Token;
 using SmartAC.Models.Common;
@@ -30,15 +31,15 @@ namespace SmartAC.Services.Devices
         private readonly ISensorsReadingDataService _sensorsReadingDataService;
         private readonly ICacheManager _cacheManager;
         private readonly IMapper _mapper;
-        private readonly AppSettings appSettings;
-        public DeviceService(IOptions<AppSettings> appSettings, IDeviceDataService deviceDataService, IDeviceRegisterationDataService deviceRegisterationDataService, ISensorsReadingDataService sensorsReadingDataService, IMapper mapper, ICacheManager cacheManager)
+        private readonly IConfiguration _configuration;
+        public DeviceService(IConfiguration configuration, IDeviceDataService deviceDataService, IDeviceRegisterationDataService deviceRegisterationDataService, ISensorsReadingDataService sensorsReadingDataService, IMapper mapper, ICacheManager cacheManager)
         {
             _deviceDataService = deviceDataService;
             _deviceRegisterationDataService = deviceRegisterationDataService;
             _sensorsReadingDataService = sensorsReadingDataService;
             _cacheManager = cacheManager;
             _mapper = mapper;
-            this.appSettings = appSettings.Value;
+            _configuration = configuration;
         }
 
         public GenericResponse Register(RegisterDeviceRequest request)
@@ -67,7 +68,7 @@ namespace SmartAC.Services.Devices
 
             _deviceRegisterationDataService.CreateDeviceRegisteration(registeration);
 
-            string jwtToken = TokenHelper.GenerateJwtToken(appSettings.Secret, registeration.Id, CommonConsts.ISSUER_DEVICES_API);
+            string jwtToken = TokenHelper.GenerateJwtToken(_configuration.GetSection("AppSettings")["Secret"], registeration.Id, CommonConsts.ISSUER_DEVICES_API);
 
             _cacheManager.Add(CommonConsts.TOKEN, jwtToken);
 

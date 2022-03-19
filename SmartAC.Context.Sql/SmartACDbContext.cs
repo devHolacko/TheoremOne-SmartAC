@@ -1,5 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
+using SmartAC.Models.Common;
 using SmartAC.Models.Data.Alerts;
 using SmartAC.Models.Data.Devices;
 using SmartAC.Models.Data.Sensors;
@@ -9,8 +12,21 @@ namespace SmartAC.Context.Sql
 {
     public class SmartACDbContext : DbContext
     {
+        private readonly IConfiguration _configuration;
+        public SmartACDbContext()
+        {
+            
+        }
+
+        public SmartACDbContext(DbContextOptions<SmartACDbContext> options, IConfiguration configuration)
+        : base(options)
+        {
+            _configuration = configuration;
+        }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
+            //base.OnConfiguring(optionsBuilder);
+            optionsBuilder.UseSqlServer(_configuration.GetSection("AppSettings")["DbConnectionString"]);
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -57,8 +73,8 @@ namespace SmartAC.Context.Sql
                 entity.Property(e => e.ViewStatus).IsRequired();
                 entity.Property(e => e.ResolutionStatus).IsRequired();
 
-                entity.HasOne(c => c.Device).WithMany(c => c.Alerts).HasForeignKey(c => c.DeviceId);
-                entity.HasOne(c => c.SensorsReading).WithMany(c => c.Alerts).HasForeignKey(c => c.SensorReadingId);
+                entity.HasOne(c => c.Device).WithMany(c => c.Alerts).HasForeignKey(c => c.DeviceId).OnDelete(DeleteBehavior.Restrict);
+                entity.HasOne(c => c.SensorsReading).WithMany(c => c.Alerts).HasForeignKey(c => c.SensorReadingId).OnDelete(DeleteBehavior.Restrict);
             });
 
             modelBuilder.Entity<DeviceRegisteration>(entity =>
@@ -72,7 +88,7 @@ namespace SmartAC.Context.Sql
                 entity.Property(e => e.DeviceId).IsRequired();
                 entity.Property(e => e.FirmwareVersion).IsRequired();
 
-                entity.HasOne(c => c.Device).WithMany(c => c.DeviceRegisterations).HasForeignKey(c => c.DeviceId);
+                entity.HasOne(c => c.Device).WithMany(c => c.DeviceRegisterations).HasForeignKey(c => c.DeviceId).OnDelete(DeleteBehavior.Restrict);
             });
 
             modelBuilder.Entity<SensorsReading>(entity =>
@@ -89,7 +105,7 @@ namespace SmartAC.Context.Sql
                 entity.Property(e => e.CarbonMonoxide).IsRequired();
                 entity.Property(e => e.HealthStatus).IsRequired();
 
-                entity.HasOne(c => c.Device).WithMany(c => c.DeviceSensorReadings).HasForeignKey(c => c.DeviceId);
+                entity.HasOne(c => c.Device).WithMany(c => c.DeviceSensorReadings).HasForeignKey(c => c.DeviceId).OnDelete(DeleteBehavior.Restrict);
             });
 
             modelBuilder.Entity<InvalidSensorReading>(entity =>
@@ -103,7 +119,7 @@ namespace SmartAC.Context.Sql
                 entity.Property(e => e.DeviceId).IsRequired();
                 entity.Property(e => e.Data).IsRequired().HasMaxLength(500);
 
-                entity.HasOne(c => c.Device).WithMany(c => c.DeviceInvalidReadings).HasForeignKey(c => c.DeviceId);
+                entity.HasOne(c => c.Device).WithMany(c => c.DeviceInvalidReadings).HasForeignKey(c => c.DeviceId).OnDelete(DeleteBehavior.Restrict);
             });
         }
 

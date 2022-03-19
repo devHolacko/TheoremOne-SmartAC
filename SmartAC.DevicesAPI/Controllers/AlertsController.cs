@@ -14,36 +14,6 @@ namespace SmartAC.DevicesAPI.Controllers
     [ApiController]
     public class AlertsController : BaseAuthController
     {
-        private readonly IAlertService _alertService;
-        public AlertsController(IAlertService alertService)
-        {
-            _alertService = alertService;
-        }
-
-        [Route("active/view-status/{view-status}/resolution-status/{resolution-status}/sorting/{sorting-type}/size/{page-size}/number/{page-number}")]
-        [HttpGet]
-        public IActionResult GetActiveAlerts([FromRoute(Name = "view-status")] ActiveAlertsViewStatusFilter viewStatus, [FromRoute(Name = "resolution-status")] ActiveAlertsResolutionStatusFilter resolutionStatus,
-            [FromRoute(Name = "sorting-type")] SortingType sortingType, [FromRoute(Name = "page-size")] int pageSize, [FromRoute(Name = "page-number")] int pageNumber)
-        {
-            DataGenericResponse<List<AlertViewModel>> response = _alertService.GetActiveAlerts(viewStatus, resolutionStatus, sortingType, pageNumber, pageSize);
-
-            return new OkObjectResult(response);
-        }
-
-        [Route("{alert-id}/view")]
-        [HttpPatch]
-        public IActionResult MarkAlertViewed([FromRoute(Name = "alert-id")] Guid alertId)
-        {
-            GenericResponse response = _alertService.ChangeAlertViewStatus(alertId, AlertViewStatus.Viewed);
-            return new OkObjectResult(response);
-        }
-
-        [Route("{alert-id}/ignore")]
-        [HttpPatch]
-        public IActionResult MarkAlertIgnored([FromRoute(Name = "alert-id")] Guid alertId)
-        {
-            GenericResponse response = _alertService.ChangeAlertResolutionStatus(alertId, AlertResolutionStatus.Ignored);
-            return new OkObjectResult(response);
-        }
+        
     }
 }

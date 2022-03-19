@@ -5,6 +5,7 @@ using SmartAC.Models.Interfaces.Services;
 using SmartAC.Models.ViewModels.Requests.Devices;
 using SmartAC.Models.ViewModels.Responses;
 using SmartAC.Models.ViewModels.Responses.Base;
+using SmartAC.Models.ViewModels.Responses.Devices;
 using System;
 using System.Collections.Generic;
 
@@ -41,6 +42,14 @@ namespace SmartAC.DevicesAPI.Controllers
         public IActionResult GetRecentlyRegisteredDevices([FromRoute(Name = "page-size")] int pageSize, [FromRoute(Name = "page-number")] int pageNumber)
         {
             DataGenericResponse<List<DeviceRegisterationViewModel>> response = _deviceService.GetRecentlyRegisteredDevices(pageSize, pageNumber);
+            return new OkObjectResult(response);
+        }
+
+        [Route("serial/{serial-number}")]
+        [HttpGet]
+        public IActionResult GetDevicesBySerialNumber([FromRoute(Name ="serial-number")]string serialNumber)
+        {
+            DataGenericResponse<List<DeviceViewModel>> response = _deviceService.FilterDevicesBySerial(serialNumber);
             return new OkObjectResult(response);
         }
     }

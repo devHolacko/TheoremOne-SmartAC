@@ -128,16 +128,16 @@ namespace SmartAC.Services.Devices
             return response.CreateSuccessResponse(ErrorCodesConsts.SUCCESS, registerationsVM);
         }
 
-        public DataGenericResponse<DeviceViewModel> GetDeviceBySerial(string serialNumber)
+        public DataGenericResponse<List<DeviceViewModel>> FilterDevicesBySerial(string serialNumber)
         {
-            DataGenericResponse<DeviceViewModel> response = new DataGenericResponse<DeviceViewModel>();
+            DataGenericResponse<List<DeviceViewModel>> response = new DataGenericResponse<List<DeviceViewModel>>();
             if (string.IsNullOrEmpty(serialNumber))
             {
                 return response.CreateFailureResponse(ErrorCodesConsts.NOT_FOUND);
             }
 
-            Device device = _deviceDataService.GetDevices(c => c.Serial == serialNumber).FirstOrDefault();
-            DeviceViewModel mappedDevice = _mapper.Map<DeviceViewModel>(device);
+            List<Device> device = _deviceDataService.GetDevices(c => c.Serial.Contains(serialNumber)).ToList();
+            List<DeviceViewModel> mappedDevice = _mapper.Map<List<DeviceViewModel>>(device);
 
             return response.CreateSuccessResponse(ErrorCodesConsts.SUCCESS, mappedDevice);
         }

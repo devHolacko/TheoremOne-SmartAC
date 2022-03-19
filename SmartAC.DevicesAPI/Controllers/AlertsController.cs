@@ -5,6 +5,7 @@ using SmartAC.Models.Enums;
 using SmartAC.Models.Interfaces.Services;
 using SmartAC.Models.ViewModels.Responses.Alerts;
 using SmartAC.Models.ViewModels.Responses.Base;
+using System;
 using System.Collections.Generic;
 
 namespace SmartAC.DevicesAPI.Controllers
@@ -26,6 +27,14 @@ namespace SmartAC.DevicesAPI.Controllers
         {
             DataGenericResponse<List<AlertViewModel>> response = _alertService.GetActiveAlerts(viewStatus, resolutionStatus, sortingType, pageNumber, pageSize);
 
+            return new OkObjectResult(response);
+        }
+
+        [Route("{alert-id}/view")]
+        [HttpPatch]
+        public IActionResult MarkAlertViewed([FromRoute(Name = "alert-id")] Guid alertId)
+        {
+            GenericResponse response = _alertService.ChangeAlertViewStatus(alertId, AlertViewStatus.Viewed);
             return new OkObjectResult(response);
         }
     }

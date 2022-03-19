@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using SmartAC.Models.Consts;
+using SmartAC.Models.Data.Alerts;
 using SmartAC.Models.Data.Sensors;
 using SmartAC.Models.Interfaces.Data;
 using SmartAC.Models.Interfaces.Services;
@@ -17,11 +18,13 @@ namespace SmartAC.Services.Sensors
     public class SensorsReadingService : ISensorsReadingService
     {
         private readonly ISensorsReadingDataService _sensorsReadingDataService;
+        private readonly IAlertDataService _alertDataService;
         private readonly IMapper _mapper;
-        public SensorsReadingService(ISensorsReadingDataService sensorsReadingDataService, IMapper mapper)
+        public SensorsReadingService(ISensorsReadingDataService sensorsReadingDataService, IMapper mapper, IAlertDataService alertDataService)
         {
             _sensorsReadingDataService = sensorsReadingDataService;
             _mapper = mapper;
+            _alertDataService = alertDataService;
         }
 
         public DataGenericResponse<List<SensorReadingsResponseViewModel>> GetSensorReadings(Guid deviceId, DateTime? from, DateTime? to, int pageNumber = 1, int pageSize = 10)

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using SmartAC.Models.Data.Devices;
 using SmartAC.Models.ViewModels.Responses;
+using SmartAC.Models.ViewModels.Responses.Devices;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,6 +20,11 @@ namespace SmartAC.Models.Mappings
                 .ForMember(x => x.FirmwareVersion, d => d.MapFrom(u => u.FirmwareVersion))
                 .ForMember(x => x.Serial, d => d.MapFrom(u => u.Device.Serial))
                 .ForMember(x => x.RegisteredOn, d => d.MapFrom(c => c.CreatedOn))
+                .ReverseMap();
+
+            CreateMap<DeviceViewModel, Device>()
+                .ForMember(x => x.Id, d => d.MapFrom(c => c.DeviceId))
+                .ForMember(x => x.Serial, d => d.MapFrom(c => c.SerialNumber))
                 .ReverseMap();
         }
     }

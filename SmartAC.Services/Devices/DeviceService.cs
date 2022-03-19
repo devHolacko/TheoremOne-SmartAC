@@ -14,6 +14,7 @@ using SmartAC.Models.ViewModels;
 using SmartAC.Models.ViewModels.Requests.Devices;
 using SmartAC.Models.ViewModels.Responses;
 using SmartAC.Models.ViewModels.Responses.Base;
+using SmartAC.Models.ViewModels.Responses.Devices;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -125,6 +126,20 @@ namespace SmartAC.Services.Devices
             List<DeviceRegisterationViewModel> registerationsVM = _mapper.Map<List<DeviceRegisterationViewModel>>(devicesRegisterations);
 
             return response.CreateSuccessResponse(ErrorCodesConsts.SUCCESS, registerationsVM);
+        }
+
+        public DataGenericResponse<DeviceViewModel> GetDeviceBySerial(string serialNumber)
+        {
+            DataGenericResponse<DeviceViewModel> response = new DataGenericResponse<DeviceViewModel>();
+            if (string.IsNullOrEmpty(serialNumber))
+            {
+                return response.CreateFailureResponse(ErrorCodesConsts.NOT_FOUND);
+            }
+
+            Device device = _deviceDataService.GetDevices(c => c.Serial == serialNumber).FirstOrDefault();
+            DeviceViewModel mappedDevice = _mapper.Map<DeviceViewModel>(device);
+
+            return response.CreateSuccessResponse(ErrorCodesConsts.SUCCESS, mappedDevice);
         }
     }
 }

@@ -62,6 +62,14 @@ namespace SmartAC.Services.Alerts
                 return response.CreateFailureResponse(ErrorCodesConsts.INVALID_SENSOR_READING);
             }
 
+            bool duplicateAlert = _alertDataService.GetAlerts(c => c.DeviceId == request.DeviceId && c.SensorReadingId == request.SensorReadingId && c.Type == request.Type && ((c.ViewStatus == AlertViewStatus.New && c.ResolutionStatus == AlertResolutionStatus.New) || (c.ResolutionDate.HasValue && request.AlertDate.ToUniversalTime() < c.ResolutionDate))).Any();
+            if (duplicateAlert)
+            {
+                return response.CreateSuccessResponse(ErrorCodesConsts.SUCCESS);
+            }
+
+
+
             Alert alert = _mapper.Map<Alert>(request);
             alert.ViewStatus = AlertViewStatus.New;
             alert.ResolutionStatus = AlertResolutionStatus.New;
@@ -151,12 +159,12 @@ namespace SmartAC.Services.Alerts
             GenericResponse response = new GenericResponse();
 
             Alert selectedAlert = _alertDataService.GetAlertById(alertId);
-            if(selectedAlert == null)
+            if (selectedAlert == null)
             {
                 return response.CreateFailureResponse(ErrorCodesConsts.NOT_FOUND);
             }
 
-            if(selectedAlert.ViewStatus != viewStatus)
+            if (selectedAlert.ViewStatus != viewStatus)
             {
                 selectedAlert.ViewStatus = viewStatus;
                 _alertDataService.EditAlert(selectedAlert);

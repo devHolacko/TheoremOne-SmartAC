@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using SmartAC.DevicesAPI.Attributes.Auth;
 using SmartAC.DevicesAPI.Controllers.Base;
 using SmartAC.Models.Interfaces.Services;
 using SmartAC.Models.ViewModels.Requests.Devices;
@@ -31,6 +32,7 @@ namespace SmartAC.DevicesAPI.Controllers
 
         [Route("sensors/reporting")]
         [HttpPost]
+        [Authorize]
         public IActionResult ReportSensorsReadings([FromBody] ReportDeviceReadingsRequest request)
         {
             GenericResponse response = _deviceService.ReportDeviceReadings(request);

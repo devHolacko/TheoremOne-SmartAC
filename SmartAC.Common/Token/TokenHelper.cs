@@ -36,6 +36,11 @@ namespace SmartAC.Common.Token
             return new JwtSecurityTokenHandler().ReadJwtToken(token).IssuedAt;
         }
 
+        public static string GetId(string token)
+        {
+            return new JwtSecurityTokenHandler().ReadJwtToken(token).Claims.FirstOrDefault(c => c.Type == "id").Value;
+        }
+
         public static bool ValidateToken(string stringToken, string issuer, string secret)
         {
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secret));

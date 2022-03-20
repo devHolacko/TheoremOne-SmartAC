@@ -4,7 +4,9 @@ using SmartAC.Models.Data.Alerts;
 using SmartAC.Models.Data.Sensors;
 using SmartAC.Models.Interfaces.Data;
 using SmartAC.Models.Interfaces.Services;
+using SmartAC.Models.Validations.SensorsReading;
 using SmartAC.Models.ViewModels;
+using SmartAC.Models.ViewModels.Requests.Devices.Sensors;
 using SmartAC.Models.ViewModels.Responses.Base;
 using SmartAC.Models.ViewModels.Responses.Sesnors;
 using System;
@@ -18,13 +20,15 @@ namespace SmartAC.Services.Sensors
     public class SensorsReadingService : ISensorsReadingService
     {
         private readonly ISensorsReadingDataService _sensorsReadingDataService;
+        private readonly IInvalidSensorsReadingDataService _invalidSensorsReadingDataService;
         private readonly IAlertDataService _alertDataService;
         private readonly IMapper _mapper;
-        public SensorsReadingService(ISensorsReadingDataService sensorsReadingDataService, IMapper mapper, IAlertDataService alertDataService)
+        public SensorsReadingService(ISensorsReadingDataService sensorsReadingDataService, IMapper mapper, IAlertDataService alertDataService, IInvalidSensorsReadingDataService invalidSensorsReadingDataService)
         {
             _sensorsReadingDataService = sensorsReadingDataService;
             _mapper = mapper;
             _alertDataService = alertDataService;
+            _invalidSensorsReadingDataService = invalidSensorsReadingDataService;
         }
 
         public DataGenericResponse<List<SensorReadingsResponseViewModel>> GetSensorReadings(Guid deviceId, DateTime? from, DateTime? to, int pageNumber = 1, int pageSize = 10)
@@ -57,6 +61,34 @@ namespace SmartAC.Services.Sensors
             List<SensorReadingsResponseViewModel> mappedReadings = _mapper.Map<List<SensorReadingsResponseViewModel>>(readingsList);
 
             return response.CreateSuccessResponse(ErrorCodesConsts.SUCCESS, mappedReadings);
+        }
+
+        public GenericResponse CreateInvalidReading(CreateInvalidSensorReadingRequest request)
+        {
+            GenericResponse response = new GenericResponse();
+            CreateInvalidSensorReadingValidator validator = new CreateInvalidSensorReadingValidator();
+
+            if (request == null)
+            {
+                return response.CreateFailureResponse(ErrorCodesConsts.INVALID_REQUEST);
+            }
+
+            var validationResult = validator.Validate(request);
+            if (!validationResult.IsValid)
+            {
+                return response.CreateFailureResponse(validationResult.Errors.Select(c => c.ErrorMessage).ToArray());
+            }
+
+            if (request.Data.Length > 500)
+            {
+                request.Data = request.Data.Substring(0, 500);
+            }
+
+            InvalidSensorReading reading = _mapper.Map<InvalidSensorReading>(request);
+
+            _invalidSensorsReadingDataService.CreateInvalidReading(reading);
+
+            return response.CreateSuccessResponse(ErrorCodesConsts.SUCCESS);
         }
     }
 }

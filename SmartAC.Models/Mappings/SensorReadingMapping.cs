@@ -20,6 +20,7 @@ namespace SmartAC.Models.Mappings
                 .ForMember(c => c.SensorReadingId, d => d.MapFrom(x => x.Id))
                 .ForMember(c => c.AlertId, d => d.MapFrom(x => x.Alerts != null ? x.Alerts.FirstOrDefault().Id : Guid.Empty))
                 .ReverseMap();
+            CreateMap<CreateInvalidSensorReadingRequest, InvalidSensorReading>().ReverseMap();
         }
     }
 }

@@ -9,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using SmartAC.DevicesAPI.Attributes.SensorReading;
 using SmartAC.Models.Mappings;
 using SmartAC.Services;
 using System;
@@ -43,7 +44,10 @@ namespace SmartAC.DevicesAPI
 
             IMapper mapper = mappingConfig.CreateMapper();
 
-            services.AddControllers().AddFluentValidation();
+            services.AddControllers(config =>
+            {
+                //config.Filters.Add(new SafeReadingActionFilter());
+            }).AddFluentValidation();
             
             services.AddSingleton(mapper);
 
@@ -55,6 +59,8 @@ namespace SmartAC.DevicesAPI
             });
 
             ServicesStartup.Configure(services, Configuration.GetSection("AppSettings")["DbConnectionString"]);
+
+            services.AddScoped<SafeReadingActionFilter>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -13,6 +13,7 @@ using SmartAC.Models.Mappings;
 using SmartAC.Services;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -53,6 +54,31 @@ namespace SmartAC.AdminAPI
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "SmartAC.AdminAPI", Version = "v1" });
+                c.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, "SmartAC.AdminAPI.xml"));
+
+                c.AddSecurityDefinition("Token", new OpenApiSecurityScheme
+                {
+                    Description = "JWT Authorization header",
+                    Name = "Authorization",
+                    In = ParameterLocation.Header,
+                    Type = SecuritySchemeType.ApiKey,
+                    Scheme = string.Empty
+                });
+
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement
+            {
+                {
+                    new OpenApiSecurityScheme
+                    {
+                        Reference = new OpenApiReference
+                        {
+                            Type = ReferenceType.SecurityScheme,
+                            Id = "Token"
+                        }
+                    },
+                    Array.Empty<string>()
+                }
+            });
             });
 
             ServicesStartup.Configure(services, Configuration.GetSection("AppSettings")["DbConnectionString"]);

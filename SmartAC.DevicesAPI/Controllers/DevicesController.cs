@@ -23,6 +23,11 @@ namespace SmartAC.DevicesAPI.Controllers
             _deviceService = deviceService;
         }
 
+        /// <summary>
+        /// An api that registers a new device given some device details
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
         [Route("registeration")]
         [HttpPost]
         public IActionResult Register([FromBody] RegisterDeviceRequest request)

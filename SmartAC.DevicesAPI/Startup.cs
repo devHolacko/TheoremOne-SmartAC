@@ -14,6 +14,7 @@ using SmartAC.Models.Mappings;
 using SmartAC.Services;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -48,7 +49,7 @@ namespace SmartAC.DevicesAPI
             {
                 //config.Filters.Add(new SafeReadingActionFilter());
             }).AddFluentValidation();
-            
+
             services.AddSingleton(mapper);
 
             services.AddMemoryCache();
@@ -56,6 +57,31 @@ namespace SmartAC.DevicesAPI
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "SmartAC.DevicesAPI", Version = "v1" });
+                c.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, "SmartAC.DevicesAPI.xml"));
+
+                c.AddSecurityDefinition("Token", new OpenApiSecurityScheme
+                {
+                    Description = "JWT Authorization header",
+                    Name = "Authorization",
+                    In = ParameterLocation.Header,
+                    Type = SecuritySchemeType.ApiKey,
+                    Scheme = string.Empty
+                });
+
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement
+            {
+                {
+                    new OpenApiSecurityScheme
+                    {
+                        Reference = new OpenApiReference
+                        {
+                            Type = ReferenceType.SecurityScheme,
+                            Id = "Token"
+                        }
+                    },
+                    Array.Empty<string>()
+                }
+            });
             });
 
             ServicesStartup.Configure(services, Configuration.GetSection("AppSettings")["DbConnectionString"]);
@@ -66,12 +92,8 @@ namespace SmartAC.DevicesAPI
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "SmartAC.DevicesAPI v1"));
-            }
+            app.UseSwagger();
+            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "SmartAC.DevicesAPI v1"));
 
             app.UseHttpsRedirection();
 

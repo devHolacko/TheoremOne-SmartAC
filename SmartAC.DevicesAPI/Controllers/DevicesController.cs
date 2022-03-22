@@ -10,6 +10,7 @@ using SmartAC.Models.ViewModels.Responses.Base;
 using SmartAC.Models.ViewModels.Responses.Devices;
 using System;
 using System.Collections.Generic;
+using System.Net.Mime;
 
 namespace SmartAC.DevicesAPI.Controllers
 {
@@ -30,16 +31,25 @@ namespace SmartAC.DevicesAPI.Controllers
         /// <returns></returns>
         [Route("registeration")]
         [HttpPost]
+        [Consumes(MediaTypeNames.Application.Json)]
+        [Produces(MediaTypeNames.Application.Json, Type = typeof(GenericResponse))]
         public IActionResult Register([FromBody] RegisterDeviceRequest request)
         {
             GenericResponse response = _deviceService.Register(request);
             return new OkObjectResult(response);
         }
 
+        /// <summary>
+        /// An api that records sensors readings per device
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
         [Route("sensors/reporting")]
         [HttpPost]
         [Authorize]
         [ServiceFilter(typeof(SafeReadingActionFilter))]
+        [Consumes(MediaTypeNames.Application.Json)]
+        [Produces(MediaTypeNames.Application.Json, Type = typeof(GenericResponse))]
         public IActionResult ReportSensorsReadings([FromBody] ReportDeviceReadingsRequest request)
         {
             GenericResponse response = _deviceService.ReportDeviceReadings(request);

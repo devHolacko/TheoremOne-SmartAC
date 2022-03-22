@@ -4,6 +4,7 @@ using SmartAC.AdminAPI.Controllers.Base;
 using SmartAC.Models.Interfaces.Services;
 using SmartAC.Models.ViewModels.Requests.Users;
 using SmartAC.Models.ViewModels.Responses.Base;
+using System.Net.Mime;
 
 namespace SmartAC.AdminAPI.Controllers
 {
@@ -24,6 +25,8 @@ namespace SmartAC.AdminAPI.Controllers
         /// <returns></returns>
         [Route("login")]
         [HttpPost]
+        [Consumes(MediaTypeNames.Application.Json)]
+        [Produces(MediaTypeNames.Application.Json, Type = typeof(DataGenericResponse<string>))]
         public IActionResult Login([FromBody] LoginRequest request)
         {
             DataGenericResponse<string> response = _userService.Login(request);
@@ -36,6 +39,8 @@ namespace SmartAC.AdminAPI.Controllers
         /// <returns></returns>
         [Route("logout")]
         [HttpDelete]
+        [Consumes(MediaTypeNames.Application.Json)]
+        [Produces(MediaTypeNames.Application.Json, Type = typeof(GenericResponse))]
         public IActionResult Logout()
         {
             GenericResponse response = _userService.Logout();

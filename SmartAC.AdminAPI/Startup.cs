@@ -15,6 +15,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace SmartAC.AdminAPI
@@ -45,7 +46,10 @@ namespace SmartAC.AdminAPI
             IMapper mapper = mappingConfig.CreateMapper();
 
 
-            services.AddControllers().AddFluentValidation();
+            services.AddControllers().AddFluentValidation().AddJsonOptions(options =>
+            {
+                options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+            });
 
             services.AddSingleton(mapper);
 

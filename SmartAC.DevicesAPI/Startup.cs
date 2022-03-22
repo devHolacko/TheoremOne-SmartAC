@@ -16,6 +16,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace SmartAC.DevicesAPI
@@ -48,7 +49,10 @@ namespace SmartAC.DevicesAPI
             services.AddControllers(config =>
             {
                 //config.Filters.Add(new SafeReadingActionFilter());
-            }).AddFluentValidation();
+            }).AddFluentValidation().AddJsonOptions(options =>
+            {
+                options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+            }); ;
 
             services.AddSingleton(mapper);
 

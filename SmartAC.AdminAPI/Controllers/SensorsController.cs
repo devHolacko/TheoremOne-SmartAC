@@ -29,5 +29,13 @@ namespace SmartAC.AdminAPI.Controllers
             DataGenericResponse<List<SensorReadingsResponseViewModel>> response = _sensorsReadingService.GetSensorReadings(deviceId, fromDate, toDate, pageNumber, pageSize);
             return new OkObjectResult(response);
         }
+
+        [Route("aggregation/devices/{device-id}/from/{from-date}/to/{to-date}")]
+        [HttpGet]
+        public IActionResult AggregateSensorReadingByDateRange([FromRoute(Name = "device-id")] Guid deviceId, [FromRoute(Name = "from-date")] DateTime fromDate, [FromRoute(Name = "to-date")] DateTime toDate)
+        {
+            DataGenericResponse<BucketViewModel> response = _sensorsReadingService.AggregateSensorReadingByDateRange(deviceId, fromDate, toDate);
+            return new OkObjectResult(response);
+        }
     }
 }

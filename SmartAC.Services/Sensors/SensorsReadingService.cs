@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using SmartAC.Common.Common;
 using SmartAC.Models.Consts;
 using SmartAC.Models.Data.Alerts;
 using SmartAC.Models.Data.Sensors;
@@ -89,15 +90,15 @@ namespace SmartAC.Services.Sensors
             _invalidSensorsReadingDataService.CreateInvalidReading(reading);
 
             int deviceInvalidReadingsCount = _invalidSensorsReadingDataService.GetInvalidReadings(c => c.DeviceId == request.DeviceId).Count();
-            if(deviceInvalidReadingsCount > 500)
+            if (deviceInvalidReadingsCount > 500)
             {
                 bool deviceHasAlert = _alertDataService.GetAlerts(c => c.DeviceId == request.DeviceId && c.Type == Models.Enums.AlertType.InvalidData && c.ResolutionStatus != Models.Enums.AlertResolutionStatus.Resolved).Any();
                 if (!deviceHasAlert)
                 {
                     _alertDataService.CreateAlert(new Alert
                     {
-                        AlertDate=DateTime.UtcNow,
-                        DeviceId=request.DeviceId,
+                        AlertDate = DateTime.UtcNow,
+                        DeviceId = request.DeviceId,
                         Message = "Device sending unintelligible data",
                     });
                 }
@@ -105,5 +106,108 @@ namespace SmartAC.Services.Sensors
 
             return response.CreateSuccessResponse(ErrorCodesConsts.SUCCESS);
         }
+
+        public DataGenericResponse<List<BucketViewModel>> AggregateSensorReadingByDateRange(Guid deviceId, DateTime fromDate, DateTime toDate)
+        {
+            DataGenericResponse<List<BucketViewModel>> response = new DataGenericResponse<List<BucketViewModel>>();
+            var query = _sensorsReadingDataService.GetSensorReadings(c => c.DeviceId == deviceId);
+
+            DateTime todayDate = DateTime.UtcNow;
+
+            query = query.Where(c => c.RecordedAt >= fromDate && c.RecordedAt <= toDate);
+
+            int rangeHours = (toDate - todayDate).Hours;
+            int numberOfDays = (toDate - todayDate).Days;
+
+            
+
+            var (Hours, Buckets) = BucketsCalculationHelper.GetRequiredBucketsNumber(numberOfDays);
+
+            if (Hours == 0 && Buckets == 0)
+            {
+                var bucketSize = rangeHours / 28;
+                if (bucketSize > 24)
+                {
+                    Hours = numberOfDays / 30;
+                    Buckets = 30;
+                }
+                else
+                {
+                    Hours = bucketSize;
+                    Buckets = 28;
+                }
+            }
+
+            var dateRanges = BucketsCalculationHelper.CalculateDateRanges(Buckets, Hours, fromDate);
+
+            List<BucketViewModel> buckets = new List<BucketViewModel>();
+
+            foreach (var dateRange in dateRanges)
+            {
+                var dateRangeQuery = query.Where(c => c.RecordedAt >= dateRange.fromDateItem && c.RecordedAt <= dateRange.toDateItem).ToList();
+
+                decimal maxCO = dateRangeQuery.Max(c => c.CarbonMonoxide);
+                decimal maxHumidity = dateRangeQuery.Max(c => c.Humidity);
+                decimal maxTemperature = dateRangeQuery.Max(c => c.Temperature);
+
+                decimal minCO = dateRangeQuery.Min(c => c.CarbonMonoxide);
+                decimal minHumidity = dateRangeQuery.Min(c => c.Humidity);
+                decimal minTemperature = dateRangeQuery.Min(c => c.Temperature);
+
+                decimal avgCO = dateRangeQuery.Average(c => c.CarbonMonoxide);
+                decimal avgHumidity = dateRangeQuery.Average(c => c.Humidity);
+                decimal avgTemperature = dateRangeQuery.Average(c => c.Temperature);
+
+                decimal firstCO = dateRangeQuery.OrderBy(c => c.CarbonMonoxide).FirstOrDefault().CarbonMonoxide;
+                decimal firstHumidity = dateRangeQuery.OrderBy(c => c.Humidity).FirstOrDefault().Humidity;
+                decimal firstTemperature = dateRangeQuery.OrderBy(c => c.Temperature).FirstOrDefault().Temperature;
+
+
+                decimal lastCO = dateRangeQuery.OrderByDescending(c => c.CarbonMonoxide).FirstOrDefault().CarbonMonoxide;
+                decimal lastHumidity = dateRangeQuery.OrderByDescending(c => c.Humidity).FirstOrDefault().Humidity;
+                decimal lastTemperature = dateRangeQuery.OrderByDescending(c => c.Temperature).FirstOrDefault().Temperature;
+
+
+                BucketItemValueViewModel coItem = new BucketItemValueViewModel
+                {
+                    First = firstCO,
+                    Last = lastCO,
+                    Average = avgCO,
+                    Min = minCO,
+                    Max = maxCO,
+                };
+
+                BucketItemValueViewModel humidityItem = new BucketItemValueViewModel
+                {
+                    First = firstHumidity,
+                    Last = lastHumidity,
+                    Average = avgHumidity,
+                    Min = minHumidity,
+                    Max = maxHumidity,
+                };
+
+                BucketItemValueViewModel temperatureItem = new BucketItemValueViewModel
+                {
+                    First = firstTemperature,
+                    Last = lastTemperature,
+                    Average = avgTemperature,
+                    Min = minTemperature,
+                    Max = maxTemperature,
+                };
+
+                buckets.Add(new BucketViewModel
+                {
+                    CarbonMonoxide = coItem,
+                    Humidity = humidityItem,
+                    Temperature = temperatureItem,
+                });
+
+
+            }
+
+            return response.CreateSuccessResponse(ErrorCodesConsts.SUCCESS, buckets);
+        }
+
+
     }
 }

@@ -13,5 +13,6 @@ namespace SmartAC.Models.Interfaces.Services
     {
         DataGenericResponse<List<SensorReadingsResponseViewModel>> GetSensorReadings(Guid deviceId, DateTime? from, DateTime? to, int pageNumber = 1, int pageSize = 10);
         GenericResponse CreateInvalidReading(CreateInvalidSensorReadingRequest request);
+        DataGenericResponse<List<BucketViewModel>> AggregateSensorReadingByDateRange(Guid deviceId, DateTime fromDate, DateTime toDate);
     }
 }

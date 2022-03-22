@@ -11,6 +11,7 @@ namespace SmartAC.Models.Enums
         Temperature,
         CarbonMonoxide,
         Humidity,
-        HealthStatus
+        HealthStatus,
+        InvalidData
     }
 }

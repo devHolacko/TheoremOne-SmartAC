@@ -88,6 +88,21 @@ namespace SmartAC.Services.Sensors
 
             _invalidSensorsReadingDataService.CreateInvalidReading(reading);
 
+            int deviceInvalidReadingsCount = _invalidSensorsReadingDataService.GetInvalidReadings(c => c.DeviceId == request.DeviceId).Count();
+            if(deviceInvalidReadingsCount > 500)
+            {
+                bool deviceHasAlert = _alertDataService.GetAlerts(c => c.DeviceId == request.DeviceId && c.Type == Models.Enums.AlertType.InvalidData && c.ResolutionStatus != Models.Enums.AlertResolutionStatus.Resolved).Any();
+                if (!deviceHasAlert)
+                {
+                    _alertDataService.CreateAlert(new Alert
+                    {
+                        AlertDate=DateTime.UtcNow,
+                        DeviceId=request.DeviceId,
+                        Message = "Device sending unintelligible data",
+                    });
+                }
+            }
+
             return response.CreateSuccessResponse(ErrorCodesConsts.SUCCESS);
         }
     }

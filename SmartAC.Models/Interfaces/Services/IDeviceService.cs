@@ -12,7 +12,7 @@ namespace SmartAC.Models.Interfaces.Services
 {
     public interface IDeviceService
     {
-        GenericResponse Register(RegisterDeviceRequest request);
+        DataGenericResponse<string> Register(RegisterDeviceRequest request);
         GenericResponse ReportDeviceReadings(ReportDeviceReadingsRequest request);
         DataGenericResponse<List<DeviceRegisterationViewModel>> GetRecentlyRegisteredDevices(int pageNumber = 1, int pageSize = 10);
         DataGenericResponse<List<DeviceViewModel>> FilterDevicesBySerial(string serialNumber);

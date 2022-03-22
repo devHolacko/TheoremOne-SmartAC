@@ -45,9 +45,9 @@ namespace SmartAC.Services.Devices
             _alertDataService = alertDataService;
         }
 
-        public GenericResponse Register(RegisterDeviceRequest request)
+        public DataGenericResponse<string> Register(RegisterDeviceRequest request)
         {
-            GenericResponse response = new GenericResponse();
+            DataGenericResponse<string> response = new DataGenericResponse<string>();
             RegisterDeviceValidator validator = new RegisterDeviceValidator();
 
             var validationResult = validator.Validate(request);
@@ -76,13 +76,13 @@ namespace SmartAC.Services.Devices
             _cacheManager.Add(CommonConsts.TOKEN, jwtToken);
 
             Alert alert = _alertDataService.GetAlerts(c => c.ResolutionStatus != Models.Enums.AlertResolutionStatus.Ignored && c.DeviceId == selectedDevice.Id && c.Type == Models.Enums.AlertType.InvalidData).FirstOrDefault();
-            if(alert != null)
+            if (alert != null)
             {
                 alert.ResolutionStatus = Models.Enums.AlertResolutionStatus.Resolved;
                 _alertDataService.EditAlert(alert);
             }
 
-            return response.CreateSuccessResponse(ErrorCodesConsts.SUCCESS);
+            return response.CreateSuccessResponse(ErrorCodesConsts.SUCCESS, jwtToken);
         }
 
         public GenericResponse ReportDeviceReadings(ReportDeviceReadingsRequest request)

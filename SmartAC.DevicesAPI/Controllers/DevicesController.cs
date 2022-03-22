@@ -25,17 +25,17 @@ namespace SmartAC.DevicesAPI.Controllers
         }
 
         /// <summary>
-        /// An api that registers a new device given some device details
+        /// An api that registers a new device given some device details. A JWT token is generated if the request is valid
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
         [Route("registeration")]
         [HttpPost]
         [Consumes(MediaTypeNames.Application.Json)]
-        [Produces(MediaTypeNames.Application.Json, Type = typeof(GenericResponse))]
+        [Produces(MediaTypeNames.Application.Json, Type = typeof(DataGenericResponse<string>))]
         public IActionResult Register([FromBody] RegisterDeviceRequest request)
         {
-            GenericResponse response = _deviceService.Register(request);
+            DataGenericResponse<string> response = _deviceService.Register(request);
             return new OkObjectResult(response);
         }
 

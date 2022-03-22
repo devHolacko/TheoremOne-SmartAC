@@ -17,6 +17,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartAC.Data", "SmartAC.Dat
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartAC.Context.Sql", "SmartAC.Context.Sql\SmartAC.Context.Sql.csproj", "{6362A28E-6371-4F88-BE94-0DCC05E2ADF2}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{C97185DC-8CD2-4B5C-B948-26CF1E71A008}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartAC.API.Test", "SmartAC.API.Test\SmartAC.API.Test.csproj", "{A67A872E-5479-4C3C-92AB-52AA0E15C94E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,9 +55,16 @@ Global
 		{6362A28E-6371-4F88-BE94-0DCC05E2ADF2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6362A28E-6371-4F88-BE94-0DCC05E2ADF2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6362A28E-6371-4F88-BE94-0DCC05E2ADF2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A67A872E-5479-4C3C-92AB-52AA0E15C94E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A67A872E-5479-4C3C-92AB-52AA0E15C94E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A67A872E-5479-4C3C-92AB-52AA0E15C94E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A67A872E-5479-4C3C-92AB-52AA0E15C94E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{A67A872E-5479-4C3C-92AB-52AA0E15C94E} = {C97185DC-8CD2-4B5C-B948-26CF1E71A008}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {81181F52-A40B-452E-BE5D-2DAC1660FC75}

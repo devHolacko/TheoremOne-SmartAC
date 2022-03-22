@@ -4,6 +4,7 @@ using Microsoft.Extensions.Options;
 using SmartAC.Common.Token;
 using SmartAC.Models.Common;
 using SmartAC.Models.Consts;
+using SmartAC.Models.Data.Alerts;
 using SmartAC.Models.Data.Devices;
 using SmartAC.Models.Data.Sensors;
 using SmartAC.Models.Interfaces.Common;
@@ -29,10 +30,11 @@ namespace SmartAC.Services.Devices
         private readonly IDeviceDataService _deviceDataService;
         private readonly IDeviceRegisterationDataService _deviceRegisterationDataService;
         private readonly ISensorsReadingDataService _sensorsReadingDataService;
+        private readonly IAlertDataService _alertDataService;
         private readonly ICacheManager _cacheManager;
         private readonly IMapper _mapper;
         private readonly IConfiguration _configuration;
-        public DeviceService(IConfiguration configuration, IDeviceDataService deviceDataService, IDeviceRegisterationDataService deviceRegisterationDataService, ISensorsReadingDataService sensorsReadingDataService, IMapper mapper, ICacheManager cacheManager)
+        public DeviceService(IConfiguration configuration, IDeviceDataService deviceDataService, IDeviceRegisterationDataService deviceRegisterationDataService, ISensorsReadingDataService sensorsReadingDataService, IMapper mapper, ICacheManager cacheManager, IAlertDataService alertDataService)
         {
             _deviceDataService = deviceDataService;
             _deviceRegisterationDataService = deviceRegisterationDataService;
@@ -40,6 +42,7 @@ namespace SmartAC.Services.Devices
             _cacheManager = cacheManager;
             _mapper = mapper;
             _configuration = configuration;
+            _alertDataService = alertDataService;
         }
 
         public GenericResponse Register(RegisterDeviceRequest request)
@@ -71,6 +74,13 @@ namespace SmartAC.Services.Devices
             string jwtToken = TokenHelper.GenerateJwtToken(_configuration.GetSection("AppSettings")["Secret"], registeration.Id, CommonConsts.ISSUER_DEVICES_API);
 
             _cacheManager.Add(CommonConsts.TOKEN, jwtToken);
+
+            Alert alert = _alertDataService.GetAlerts(c => c.ResolutionStatus != Models.Enums.AlertResolutionStatus.Ignored && c.DeviceId == selectedDevice.Id && c.Type == Models.Enums.AlertType.InvalidData).FirstOrDefault();
+            if(alert != null)
+            {
+                alert.ResolutionStatus = Models.Enums.AlertResolutionStatus.Resolved;
+                _alertDataService.EditAlert(alert);
+            }
 
             return response.CreateSuccessResponse(ErrorCodesConsts.SUCCESS);
         }

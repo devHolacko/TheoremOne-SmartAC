@@ -41,6 +41,14 @@ namespace SmartAC.DevicesAPI.Attributes.SensorReading
                             //SensorReadingId = castedRequest.sens
                         });
                     }
+                    else
+                    {
+                        DataGenericResponse<bool> response = alertService.CheckUnresolvedAlerts(castedRequest.DeviceId, AlertType.Temperature);
+                        if (response.Data)
+                        {
+                            alertService.ResolveByAlertType(castedRequest.DeviceId, AlertType.Temperature);
+                        }
+                    }
                     DataGenericResponse<bool> isCarbonMonoxideValid = alertService.ValidateSensorReading(reading.CarbonMonoxide, AlertType.CarbonMonoxide);
                     if (!isCarbonMonoxideValid.Data)
                     {
@@ -52,6 +60,14 @@ namespace SmartAC.DevicesAPI.Attributes.SensorReading
                             DeviceId = castedRequest.DeviceId,
                             //SensorReadingId = castedRequest.sens
                         });
+                    }
+                    else
+                    {
+                        DataGenericResponse<bool> response = alertService.CheckUnresolvedAlerts(castedRequest.DeviceId, AlertType.CarbonMonoxide);
+                        if (response.Data)
+                        {
+                            alertService.ResolveByAlertType(castedRequest.DeviceId, AlertType.CarbonMonoxide);
+                        }
                     }
                     DataGenericResponse<bool> isHumidityValid = alertService.ValidateSensorReading(reading.Humidity, AlertType.Humidity);
                     if (!isHumidityValid.Data)
@@ -65,6 +81,14 @@ namespace SmartAC.DevicesAPI.Attributes.SensorReading
                             //SensorReadingId = castedRequest.sens
                         });
                     }
+                    else
+                    {
+                        DataGenericResponse<bool> response = alertService.CheckUnresolvedAlerts(castedRequest.DeviceId, AlertType.CarbonMonoxide);
+                        if (response.Data)
+                        {
+                            alertService.ResolveByAlertType(castedRequest.DeviceId, AlertType.CarbonMonoxide);
+                        }
+                    }
                     DataGenericResponse<bool> isHealthStatusValid = alertService.ValidateSensorReading(reading.HealthStatus.ToString("d"), AlertType.HealthStatus);
                     if (!isHealthStatusValid.Data)
                     {
@@ -76,6 +100,14 @@ namespace SmartAC.DevicesAPI.Attributes.SensorReading
                             DeviceId = castedRequest.DeviceId,
                             //SensorReadingId = castedRequest.sens
                         });
+                    }
+                    else
+                    {
+                        DataGenericResponse<bool> response = alertService.CheckUnresolvedAlerts(castedRequest.DeviceId, AlertType.HealthStatus);
+                        if (response.Data)
+                        {
+                            alertService.ResolveByAlertType(castedRequest.DeviceId, AlertType.HealthStatus);
+                        }
                     }
                 }
             }

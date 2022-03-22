@@ -191,5 +191,21 @@ namespace SmartAC.Services.Alerts
 
             return response.CreateSuccessResponse(ErrorCodesConsts.SUCCESS);
         }
+
+        public DataGenericResponse<bool> CheckUnresolvedAlerts(Guid deviceId, AlertType alertType)
+        {
+            DataGenericResponse<bool> response = new DataGenericResponse<bool>();
+            bool deviceHasUnresolvedAlerts = _alertDataService.GetAlerts(c => c.Id == deviceId && c.Type == alertType && c.ResolutionStatus != AlertResolutionStatus.Resolved).Any();
+            return response.CreateSuccessResponse(ErrorCodesConsts.SUCCESS, deviceHasUnresolvedAlerts);
+        }
+
+        public GenericResponse ResolveByAlertType(Guid deviceId, AlertType alertType)
+        {
+            GenericResponse response = new GenericResponse();
+            Alert unresolvedAlert = _alertDataService.GetAlerts(c => c.Id == deviceId && c.Type == alertType && c.ResolutionStatus != AlertResolutionStatus.Resolved).FirstOrDefault();
+            unresolvedAlert.ResolutionStatus = AlertResolutionStatus.Resolved;
+            _alertDataService.EditAlert(unresolvedAlert);
+            return response.CreateSuccessResponse(ErrorCodesConsts.SUCCESS);
+        }
     }
 }

@@ -18,5 +18,7 @@ namespace SmartAC.Models.Interfaces.Services
         DataGenericResponse<List<AlertViewModel>> GetActiveAlerts(ActiveAlertsViewStatusFilter viewStatus, ActiveAlertsResolutionStatusFilter resolutionStatus, SortingType sortingType, int pageNumber = 10, int pageSize = 10);
         GenericResponse ChangeAlertViewStatus(Guid alertId, AlertViewStatus viewStatus);
         GenericResponse ChangeAlertResolutionStatus(Guid alertId, AlertResolutionStatus resolutionStatus);
+        DataGenericResponse<bool> CheckUnresolvedAlerts(Guid deviceId, AlertType alertType);
+        GenericResponse ResolveByAlertType(Guid deviceId, AlertType alertType);
     }
 }

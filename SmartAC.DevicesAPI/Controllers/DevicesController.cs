@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using SmartAC.DevicesAPI.Attributes.Auth;
 using SmartAC.DevicesAPI.Attributes.SensorReading;
-using SmartAC.DevicesAPI.Controllers.Base;
 using SmartAC.Models.Interfaces.Services;
 using SmartAC.Models.ViewModels.Requests.Devices;
 using SmartAC.Models.ViewModels.Responses;

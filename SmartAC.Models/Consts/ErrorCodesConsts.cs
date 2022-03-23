@@ -9,6 +9,7 @@ namespace SmartAC.Models.Consts
     public class ErrorCodesConsts
     {
         public const string INVALID_REQUEST = "InvalidRequest";
+        public const string ERROR_OCCURED = "ErrorOccured";
         public const string NOT_FOUND = "NotFound";
         public const string INVALID_SECRET = "InvalidSecret";
         public const string INVALID_SECRET_SERIAL = "InvalidSecretSerial";

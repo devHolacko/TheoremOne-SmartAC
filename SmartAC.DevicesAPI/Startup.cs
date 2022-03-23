@@ -10,6 +10,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using SmartAC.DevicesAPI.Attributes.SensorReading;
+using SmartAC.DevicesAPI.Middlewares;
 using SmartAC.Models.Mappings;
 using SmartAC.Services;
 using System;
@@ -96,6 +97,8 @@ namespace SmartAC.DevicesAPI
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseMiddleware<ExceptionHandlerMiddleware>();
+
             app.UseSwagger();
             app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "SmartAC.DevicesAPI v1"));
 

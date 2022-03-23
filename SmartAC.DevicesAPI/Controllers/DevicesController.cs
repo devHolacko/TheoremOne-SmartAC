@@ -16,7 +16,7 @@ namespace SmartAC.DevicesAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class DevicesController : BaseAuthController
+    public class DevicesController : ControllerBase
     {
         private readonly IDeviceService _deviceService;
         public DevicesController(IDeviceService deviceService)

@@ -12,6 +12,7 @@ namespace SmartAC.Models.Consts
         public const string ERROR_OCCURED = "ErrorOccured";
         public const string NOT_FOUND = "NotFound";
         public const string INVALID_SECRET = "InvalidSecret";
+        public const string INVALID_FIRMWARE = "InvalidFirmware";
         public const string INVALID_SECRET_SERIAL = "InvalidSecretSerial";
         public const string SUCCESS = "Success";
         public const string INVALID_VERSION = "InvalidVersion";

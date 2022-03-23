@@ -16,7 +16,7 @@ namespace SmartAC.Models.Validations.DeviceRegisterations
         {
             RuleFor(x => x.Serial).NotNull().NotEmpty().MaximumLength(32).WithMessage(ErrorCodesConsts.INVALID_SERIAL);
             RuleFor(x => x.Secret).NotNull().NotEmpty().WithMessage(ErrorCodesConsts.INVALID_SECRET);
-            RuleFor(x => x.FirmwareVersion).NotNull().NotEmpty().Matches(RegexConsts.SEMANTIC_VERSIONING_REGEX);
+            RuleFor(x => x.FirmwareVersion).NotNull().NotEmpty().WithMessage(ErrorCodesConsts.INVALID_FIRMWARE);
         }
     }
 }

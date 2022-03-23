@@ -21,6 +21,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace SmartAC.Services.Devices
@@ -54,6 +55,12 @@ namespace SmartAC.Services.Devices
             if (!validationResult.IsValid)
             {
                 return response.CreateFailureResponse(validationResult.Errors.Select(c => c.ErrorMessage).ToArray());
+            }
+
+            bool isValidFirmware = Regex.IsMatch(request.FirmwareVersion, RegexConsts.SEMANTIC_VERSIONING_REGEX);
+            if (!isValidFirmware)
+            {
+                return response.CreateFailureResponse(ErrorCodesConsts.INVALID_FIRMWARE);
             }
 
             Device selectedDevice = _deviceDataService.GetDevices(c => c.Serial == request.Serial).FirstOrDefault();

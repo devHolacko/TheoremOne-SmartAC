@@ -34,6 +34,7 @@ update-database
 - Only a happy path unit test scenario was written for short time
 - API versioning was planned to be used.
 - Avoided using Parallel loops while inserting bulks because EF core is not thread safe
+- Hard coded strings were supposed to be replaced with Consts
 
 ## Architecture
 

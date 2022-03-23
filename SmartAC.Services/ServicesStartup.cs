@@ -16,6 +16,7 @@ using SmartAC.Services.Alerts;
 using SmartAC.Services.Devices;
 using SmartAC.Services.Others;
 using SmartAC.Services.Sensors;
+using SmartAC.Services.Users;
 
 namespace SmartAC.Services
 {
@@ -29,6 +30,7 @@ namespace SmartAC.Services
             services.AddTransient<IAlertService, AlertService>();
             services.AddSingleton<ICacheManager, CacheManager>();
             services.AddTransient<ISensorsReadingService, SensorsReadingService>();
+            services.AddTransient<IUserService, UserService>();
 
             services.AddTransient<IValidator<RegisterDeviceRequest>, RegisterDeviceValidator>();
             services.AddTransient<IValidator<ReportDeviceReadingsRequest>, ReportDeviceReadingsValidator>();

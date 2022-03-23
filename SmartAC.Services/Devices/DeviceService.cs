@@ -115,7 +115,8 @@ namespace SmartAC.Services.Devices
             }
 
             List<SensorsReading> readings = _mapper.Map<List<SensorsReading>>(request.Readings);
-
+            DateTime currentDateTime = DateTime.UtcNow;
+            readings.ForEach(s => s.RecordedAt = currentDateTime);
             int savedReadings = _sensorsReadingDataService.CreateBulkSensorReadings(readings);
 
             if (savedReadings == readings.Count)
@@ -166,6 +167,9 @@ namespace SmartAC.Services.Devices
             DataGenericResponse<List<DeviceViewModel>> response = new DataGenericResponse<List<DeviceViewModel>>();
 
             var devices = new List<(Device Device, DateTime RegisteredOn)>();
+
+            from = from.ToUniversalTime();
+            to = to.ToUniversalTime();
 
             var query = _deviceRegisterationDataService.GetDeviceRegisterations(c => c.CreatedOn >= from && c.CreatedOn <= to).OrderByDescending(c => c.CreatedOn);
             var queryResult = query.ToList();

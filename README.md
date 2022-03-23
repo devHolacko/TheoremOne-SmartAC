@@ -33,6 +33,7 @@ update-database
 - .NET core's default Dependency Injection was used for time saving purposes. In normal case, a more efficient DI library would have been used and instead of referencing the layers directly, they should be auto-loaded in the runtime to register the dependencies in the realtime without referencing the concrete implementation layer
 - Only a happy path unit test scenario was written for short time
 - API versioning was planned to be used.
+- Avoided using Parallel loops while inserting bulks because EF core is not thread safe
 
 ## Architecture
 

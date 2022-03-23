@@ -73,6 +73,7 @@ namespace SmartAC.Services.Alerts
             Alert alert = _mapper.Map<Alert>(request);
             alert.ViewStatus = AlertViewStatus.New;
             alert.ResolutionStatus = AlertResolutionStatus.New;
+            alert.AlertDate = alert.AlertDate.ToUniversalTime();
 
             _alertDataService.CreateAlert(alert);
 
@@ -186,6 +187,7 @@ namespace SmartAC.Services.Alerts
             if (selectedAlert.ResolutionStatus != resolutionStatus)
             {
                 selectedAlert.ResolutionStatus = resolutionStatus;
+                selectedAlert.ResolutionDate = DateTime.UtcNow;
                 _alertDataService.EditAlert(selectedAlert);
             }
 
@@ -204,6 +206,7 @@ namespace SmartAC.Services.Alerts
             GenericResponse response = new GenericResponse();
             Alert unresolvedAlert = _alertDataService.GetAlerts(c => c.Id == deviceId && c.Type == alertType && c.ResolutionStatus != AlertResolutionStatus.Resolved).FirstOrDefault();
             unresolvedAlert.ResolutionStatus = AlertResolutionStatus.Resolved;
+            unresolvedAlert.ResolutionDate = DateTime.UtcNow;
             _alertDataService.EditAlert(unresolvedAlert);
             return response.CreateSuccessResponse(ErrorCodesConsts.SUCCESS);
         }

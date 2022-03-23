@@ -93,6 +93,7 @@ namespace SmartAC.Services.Sensors
             if (deviceInvalidReadingsCount > 500)
             {
                 bool deviceHasAlert = _alertDataService.GetAlerts(c => c.DeviceId == request.DeviceId && c.Type == Models.Enums.AlertType.InvalidData && c.ResolutionStatus != Models.Enums.AlertResolutionStatus.Resolved).Any();
+                var lastReading = _sensorsReadingDataService.GetSensorReadings(c => c.DeviceId == request.DeviceId).OrderByDescending(c => c.RecordedAt).FirstOrDefault();
                 if (!deviceHasAlert)
                 {
                     _alertDataService.CreateAlert(new Alert
@@ -100,6 +101,7 @@ namespace SmartAC.Services.Sensors
                         AlertDate = DateTime.UtcNow,
                         DeviceId = request.DeviceId,
                         Message = "Device sending unintelligible data",
+                        SensorReadingId = lastReading.Id
                     });
                 }
             }
@@ -114,12 +116,15 @@ namespace SmartAC.Services.Sensors
 
             DateTime todayDate = DateTime.UtcNow;
 
+            fromDate = fromDate.ToUniversalTime();
+            toDate = toDate.ToUniversalTime();
+
             query = query.Where(c => c.RecordedAt >= fromDate && c.RecordedAt <= toDate);
 
             int rangeHours = (toDate - todayDate).Hours;
             int numberOfDays = (toDate - todayDate).Days;
 
-            
+
 
             var (Hours, Buckets) = BucketsCalculationHelper.GetRequiredBucketsNumber(numberOfDays);
 

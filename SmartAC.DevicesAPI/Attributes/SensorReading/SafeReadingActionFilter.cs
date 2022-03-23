@@ -12,6 +12,7 @@ using SmartAC.Models.ViewModels.Requests.Devices;
 using SmartAC.Models.ViewModels.Responses.Base;
 using System;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -19,26 +20,37 @@ namespace SmartAC.DevicesAPI.Attributes.SensorReading
 {
     public class SafeReadingActionFilter : ActionFilterAttribute
     {
+        public object RequestBody { get; set; }
+
         public override void OnActionExecuting(ActionExecutingContext context)
         {
             object request = context.ActionArguments["request"];
+            RequestBody = request;
+        }
+
+        public override void OnActionExecuted(ActionExecutedContext context)
+        {
+            object request = RequestBody;
 
             if (request is ReportDeviceReadingsRequest)
             {
                 IAlertService alertService = context.HttpContext.RequestServices.GetService(typeof(IAlertService)) as IAlertService;
+                ISensorsReadingService sensorReadingService = context.HttpContext.RequestServices.GetService(typeof(IAlertService)) as ISensorsReadingService;
                 ReportDeviceReadingsRequest castedRequest = request as ReportDeviceReadingsRequest;
                 foreach (var reading in castedRequest.Readings)
                 {
                     DataGenericResponse<bool> isTemperatureValid = alertService.ValidateSensorReading(reading.Temperature, AlertType.Temperature);
                     if (!isTemperatureValid.Data)
                     {
+                        var sensorReadings = sensorReadingService.GetSensorReadings(castedRequest.DeviceId, reading.RecordedAt, reading.RecordedAt);
+                        var recordedReading = sensorReadings.Data.FirstOrDefault(c => Enum.Parse<DeviceHealthStatus>(c.HealthStatus) == reading.HealthStatus && c.Temperature == reading.Temperature && c.CarbonMonoxide == reading.CarbonMonoxide && c.Humidity == reading.Humidity);
                         alertService.Create(new CreateAlertRequest
                         {
                             AlertDate = reading.RecordedAt,
                             Message = "Temperature value has exceeded danger limit",
                             Type = AlertType.Temperature,
                             DeviceId = castedRequest.DeviceId,
-                            //SensorReadingId = castedRequest.sens
+                            SensorReadingId = recordedReading.SensorReadingId
                         });
                     }
                     else
@@ -52,13 +64,15 @@ namespace SmartAC.DevicesAPI.Attributes.SensorReading
                     DataGenericResponse<bool> isCarbonMonoxideValid = alertService.ValidateSensorReading(reading.CarbonMonoxide, AlertType.CarbonMonoxide);
                     if (!isCarbonMonoxideValid.Data)
                     {
+                        var sensorReadings = sensorReadingService.GetSensorReadings(castedRequest.DeviceId, reading.RecordedAt, reading.RecordedAt);
+                        var recordedReading = sensorReadings.Data.FirstOrDefault(c => Enum.Parse<DeviceHealthStatus>(c.HealthStatus) == reading.HealthStatus && c.Temperature == reading.Temperature && c.CarbonMonoxide == reading.CarbonMonoxide && c.Humidity == reading.Humidity);
                         alertService.Create(new CreateAlertRequest
                         {
                             AlertDate = reading.RecordedAt,
                             Message = "CO value has exceeded danger limit",
                             Type = AlertType.CarbonMonoxide,
                             DeviceId = castedRequest.DeviceId,
-                            //SensorReadingId = castedRequest.sens
+                            SensorReadingId = recordedReading.SensorReadingId
                         });
                     }
                     else
@@ -72,13 +86,15 @@ namespace SmartAC.DevicesAPI.Attributes.SensorReading
                     DataGenericResponse<bool> isHumidityValid = alertService.ValidateSensorReading(reading.Humidity, AlertType.Humidity);
                     if (!isHumidityValid.Data)
                     {
+                        var sensorReadings = sensorReadingService.GetSensorReadings(castedRequest.DeviceId, reading.RecordedAt, reading.RecordedAt);
+                        var recordedReading = sensorReadings.Data.FirstOrDefault(c => Enum.Parse<DeviceHealthStatus>(c.HealthStatus) == reading.HealthStatus && c.Temperature == reading.Temperature && c.CarbonMonoxide == reading.CarbonMonoxide && c.Humidity == reading.Humidity);
                         alertService.Create(new CreateAlertRequest
                         {
                             AlertDate = reading.RecordedAt,
                             Message = "Humidity value has exceeded danger limit",
                             Type = AlertType.Humidity,
                             DeviceId = castedRequest.DeviceId,
-                            //SensorReadingId = castedRequest.sens
+                            SensorReadingId = recordedReading.SensorReadingId
                         });
                     }
                     else
@@ -92,13 +108,15 @@ namespace SmartAC.DevicesAPI.Attributes.SensorReading
                     DataGenericResponse<bool> isHealthStatusValid = alertService.ValidateSensorReading(reading.HealthStatus.ToString("d"), AlertType.HealthStatus);
                     if (!isHealthStatusValid.Data)
                     {
+                        var sensorReadings = sensorReadingService.GetSensorReadings(castedRequest.DeviceId, reading.RecordedAt, reading.RecordedAt);
+                        var recordedReading = sensorReadings.Data.FirstOrDefault(c => Enum.Parse<DeviceHealthStatus>(c.HealthStatus) == reading.HealthStatus && c.Temperature == reading.Temperature && c.CarbonMonoxide == reading.CarbonMonoxide && c.Humidity == reading.Humidity);
                         alertService.Create(new CreateAlertRequest
                         {
                             AlertDate = reading.RecordedAt,
                             Message = "Device is reporting health problem",
                             Type = AlertType.HealthStatus,
                             DeviceId = castedRequest.DeviceId,
-                            //SensorReadingId = castedRequest.sens
+                            SensorReadingId = recordedReading.SensorReadingId
                         });
                     }
                     else

@@ -18,7 +18,7 @@ namespace SmartAC.Models.Mappings
             CreateMap<SensorsReading, SensorReadingsResponseViewModel>()
                 .ForMember(c => c.HealthStatus, d => d.MapFrom(x => x.HealthStatus.ToString()))
                 .ForMember(c => c.SensorReadingId, d => d.MapFrom(x => x.Id))
-                .ForMember(c => c.AlertId, d => d.MapFrom(x => x.Alerts != null ? x.Alerts.FirstOrDefault().Id : Guid.Empty))
+                .ForMember(c => c.AlertsIds, d => d.MapFrom(x => x.Alerts != null ? x.Alerts.Select(c=>c.Id).ToList() : new List<Guid>()))
                 .ReverseMap();
             CreateMap<CreateInvalidSensorReadingRequest, InvalidSensorReading>().ReverseMap();
         }

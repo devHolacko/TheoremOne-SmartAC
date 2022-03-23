@@ -55,6 +55,8 @@ namespace SmartAC.Context.Sql
 
                 entity.Property(e => e.Serial).IsRequired().HasMaxLength(32);
                 entity.Property(e => e.Secret).IsRequired();
+
+                entity.HasData(Device.GetSeedingData());
             });
 
             modelBuilder.Entity<Alert>(entity =>

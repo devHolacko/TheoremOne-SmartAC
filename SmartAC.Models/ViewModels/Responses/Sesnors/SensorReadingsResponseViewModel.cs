@@ -14,6 +14,6 @@ namespace SmartAC.Models.ViewModels.Responses.Sesnors
         public decimal Humidity { get; set; }
         public decimal CarbonMonoxide { get; set; }
         public string HealthStatus { get; set; }
-        public Guid AlertId { get; set; }
+        public List<Guid> AlertsIds { get; set; }
     }
 }

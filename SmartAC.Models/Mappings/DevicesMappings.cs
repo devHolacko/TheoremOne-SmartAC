@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using SmartAC.Models.Data.Devices;
+using SmartAC.Models.ViewModels.Requests.Devices;
 using SmartAC.Models.ViewModels.Responses;
 using SmartAC.Models.ViewModels.Responses.Devices;
 using System;
@@ -26,6 +27,8 @@ namespace SmartAC.Models.Mappings
                 .ForMember(x => x.Id, d => d.MapFrom(c => c.DeviceId))
                 .ForMember(x => x.Serial, d => d.MapFrom(c => c.SerialNumber))
                 .ReverseMap();
+
+            CreateMap<DeviceRegisteration, RegisterDeviceRequest>().ForMember(c => c.FirmwareVersion, d => d.MapFrom(u => u.FirmwareVersion)).ReverseMap();
         }
     }
 }

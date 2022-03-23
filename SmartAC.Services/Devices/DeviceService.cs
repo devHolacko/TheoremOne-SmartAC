@@ -67,7 +67,8 @@ namespace SmartAC.Services.Devices
                 return response.CreateFailureResponse(ErrorCodesConsts.INVALID_SECRET_SERIAL);
             }
 
-            DeviceRegisteration registeration = new DeviceRegisteration(selectedDevice.Id, request.FirmwareVersion);
+            DeviceRegisteration registeration = _mapper.Map<DeviceRegisteration>(request);
+            registeration.DeviceId = selectedDevice.Id;
 
             _deviceRegisterationDataService.CreateDeviceRegisteration(registeration);
 

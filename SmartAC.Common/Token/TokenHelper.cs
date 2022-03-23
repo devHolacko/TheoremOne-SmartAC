@@ -13,22 +13,21 @@ namespace SmartAC.Common.Token
     {
         public static string GenerateJwtToken(string secret, Guid id, string issuer)
         {
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(secret);
-            DateTime currentDateTime = DateTime.UtcNow;
-            var tokenDescriptor = new SecurityTokenDescriptor
-            {
-                Subject = new ClaimsIdentity(new[] {
-                    new Claim("id", id.ToString())
-                }),
-                Expires = currentDateTime.AddDays(7),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature),
-                IssuedAt = currentDateTime,
-                Issuer = issuer
+            ClaimsIdentity claims = new ClaimsIdentity();
+            claims.AddClaim(new Claim("id", id.ToString()));
 
-            };
-            var token = tokenHandler.CreateToken(tokenDescriptor);
-            return tokenHandler.WriteToken(token);
+            var tokenHandler = new JwtSecurityTokenHandler();
+
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secret));
+            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+
+            // Create JWToken
+            JwtSecurityToken securityToken = tokenHandler.CreateJwtSecurityToken(issuer: issuer,
+                audience: "AUTHORITY",
+                subject: claims,
+                expires: DateTime.UtcNow.AddDays(7), signingCredentials: creds);
+
+            return tokenHandler.WriteToken(securityToken);
         }
 
         public static DateTime GetTokenIssuedAt(string token)
@@ -43,28 +42,32 @@ namespace SmartAC.Common.Token
 
         public static bool ValidateToken(string stringToken, string issuer, string secret)
         {
+
+            SecurityToken token;
+
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secret));
-            var tokenValidations = new TokenValidationParameters
+            TokenValidationParameters validationParameters = new TokenValidationParameters()
             {
+
                 IssuerSigningKey = key,
-                ValidIssuer = issuer
+                ValidIssuer = issuer,
+                ValidAudience = "AUTHORITY",
             };
+            validationParameters.ValidIssuer = issuer;
             try
             {
-                new JwtSecurityTokenHandler().ValidateToken(stringToken, tokenValidations, out SecurityToken securityToken);
-                if (securityToken.ValidTo < DateTime.UtcNow)
+                new JwtSecurityTokenHandler().ValidateToken(stringToken, validationParameters, out token);
+                if (token.ValidTo < DateTime.UtcNow)
                 {
                     return false;
-                }
-                else
-                {
-                    return true;
                 }
             }
             catch
             {
                 return false;
             }
+
+            return true;
         }
     }
 }

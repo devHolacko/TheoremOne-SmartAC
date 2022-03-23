@@ -35,7 +35,7 @@ namespace SmartAC.DevicesAPI.Attributes.SensorReading
             if (request is ReportDeviceReadingsRequest)
             {
                 IAlertService alertService = context.HttpContext.RequestServices.GetService(typeof(IAlertService)) as IAlertService;
-                ISensorsReadingService sensorReadingService = context.HttpContext.RequestServices.GetService(typeof(IAlertService)) as ISensorsReadingService;
+                ISensorsReadingService sensorReadingService = context.HttpContext.RequestServices.GetService(typeof(ISensorsReadingService)) as ISensorsReadingService;
                 ReportDeviceReadingsRequest castedRequest = request as ReportDeviceReadingsRequest;
                 foreach (var reading in castedRequest.Readings)
                 {
